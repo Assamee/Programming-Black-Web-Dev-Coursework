@@ -58,7 +58,7 @@
                     <div class="modal-body">
                         <!--Text Box to input the Description-->
                         <div class="form-floating mb-3"> <!-- form-floating is for floating labels, mb-3 is margin bottom 3 -->
-                            <textarea type="text" class="form-control" id="DescriptionInput" placeholder="Description"></textarea> <!-- Textarea for multi-line input -->
+                            <textarea class="form-control" id="DescriptionInput" placeholder="Description"></textarea> <!-- Textarea for multi-line input -->
                             <label for="floatingInput">Description</label>
                         </div>
                     </div>
@@ -122,7 +122,8 @@
                     <div class="modal-footer">
                         <button class="btn btn-primary" data-bs-target="#DescriptionModal" data-bs-toggle="modal">Back</button>
                         <!--Button to Save-->
-                        <button class="btn btn-primary" data-bs-dismiss="modal" aria-label="Close">Save</button>
+                        <!-- data-bs-dismiss closes the modal -->
+                        <button class="btn btn-primary" data-bs-dismiss="modal" aria-label="Close" id="SaveEventButton">Save</button> <!-- Added an ID to be Used in JavaScript -->
                     </div>
                 </div>
             </div>
