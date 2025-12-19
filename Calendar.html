@@ -14,15 +14,32 @@
     <body>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
 
+    <div class="p-2 mb-2 bg-secondary text-white align-items-center">
+        <div class="container">
+            <div class="row align-items-center">
+                    <div class="col-2 d-flex justify-content-center align-items-center"> <!-- justify-content-center centers horizontally, align-items-center centers vertically, d-flex makes the content flexible to changes in screen size -->
+                        <!-- Button to trigger modals -->
+                        <button class="btn btn-primary text-center" data-bs-target="#TitleModal" data-bs-toggle="modal"> <!-- data-bs-target is the id of the modal to open -->
+                            <b><h3>Add Event</h3></b>
+                        </button>
+                    </div>
+                    <div class="col-10 d-flex justify-content-center align-items-center">
+                        <!-- Centered Title -->
+                        <div class="container py-3 text-center justify-content-center d-flex align-items-center"> <!-- py-3 is padding y-axis 3 -->
+                            <div class="position-relative top-0 start-50 translate-middle-x">
+                                <h1>Welcome to my Calendar!</h1><br>
+                            </div>
+                        </div>
+                    </div>
+                
+            </div>
+        </div>
+    </div>
 
-    <div class="p-2 mb-2 bg-secondary text-white">
-        <!-- Button to trigger modal -->
-        <button class="btn btn-primary" data-bs-target="#TitleModal" data-bs-toggle="modal"> <!-- data-bs-target is the id of the modal to open -->
-            <b><h3>Add Event</h3></b>
-        </button>
 
+    <div> <!-- Modals -->  
         <!-- Title Modal -->
-          <!-- "modal fade" for the transistion, "static" prevents closing the modal when clicking outside of it, aria is for accessibility -->
+        <!-- "modal fade" for the transistion, "static" prevents closing the modal when clicking outside of it, aria is for accessibility -->
         <div class="modal fade" id="TitleModal" data-bs-backdrop="static" aria-hidden="true" aria-labelledby="exampleModalToggleLabel" tabindex="-1">
             <div class="modal-dialog modal-dialog-centered">
                 <div class="modal-content">
@@ -46,7 +63,7 @@
             </div>
         </div>
         <!-- Description Modal -->
-          <!-- "modal fade" for the transistion, "static" prevents closing the modal when clicking outside of it, aria is for accessibility -->
+        <!-- "modal fade" for the transistion, "static" prevents closing the modal when clicking outside of it, aria is for accessibility -->
         <div class="modal fade" id="DescriptionModal" data-bs-backdrop="static" aria-hidden="true" aria-labelledby="exampleModalToggleLabel2" tabindex="-1">
             <div class="modal-dialog modal-dialog-centered">
                 <div class="modal-content">
@@ -73,7 +90,7 @@
             </div>
         </div>
         <!-- Location Modal -->
-          <!-- "modal fade" for the transistion, "static" prevents closing the modal when clicking outside of it, aria is for accessibility -->
+        <!-- "modal fade" for the transistion, "static" prevents closing the modal when clicking outside of it, aria is for accessibility -->
         <div class="modal fade" id="LocationModal" data-bs-backdrop="static" aria-hidden="true" aria-labelledby="exampleModalToggleLabel2" tabindex="-1">
             <div class="modal-dialog modal-dialog-centered">
                 <div class="modal-content">
@@ -127,25 +144,20 @@
                     </div>
                 </div>
             </div>
-        </div>
-        
-        <div class="container py-3 px-3 mx-auto"> <!-- py-4 is padding y-axis 4, px-3 is padding x-axis 3, mx-auto is margin x-axis auto (centers the container) -->
-            <div class="position-absolute top-0 start-50 translate-middle-x">
-                <h1>Welcome to my Calendar!</h1><br>
-            </div>
-        </div>
+        </div>   
     </div>
 
     <div class="container text-center">
         <div class="row">
-            <div class="col-2" id="Timeline">
+            <div class="col-2 justify-content-center align-items-center d-flex" id="Timeline">
                 Date timeline here
             </div>
-            <div class="col">
-                Other stuff here
+            <div class="col-10 justify-content-center align-items-center d-flex" id="Events">
+                Display Events here
             </div>
         </div>
     </div>
+
 
 
         <!-- DOM to access form elements, (process and store later) Add a Bootstrap Collumn-->
