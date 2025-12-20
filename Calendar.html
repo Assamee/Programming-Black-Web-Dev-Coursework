@@ -16,22 +16,21 @@
 
     <div class="p-2 mb-2 bg-secondary text-white align-items-center">
         <div class="container">
-            <div class="row align-items-center">
-                    <div class="col-2 d-flex justify-content-center align-items-center"> <!-- justify-content-center centers horizontally, align-items-center centers vertically, d-flex makes the content flexible to changes in screen size -->
-                        <!-- Button to trigger modals -->
-                        <button class="btn btn-primary text-center" data-bs-target="#TitleModal" data-bs-toggle="modal"> <!-- data-bs-target is the id of the modal to open -->
-                            <b><h3>Add Event</h3></b>
-                        </button>
-                    </div>
-                    <div class="col-10 d-flex justify-content-center align-items-center">
-                        <!-- Centered Title -->
-                        <div class="container py-3 text-center justify-content-center d-flex align-items-center"> <!-- py-3 is padding y-axis 3 -->
-                            <div class="position-relative top-0 start-50 translate-middle-x">
-                                <h1>Welcome to my Calendar!</h1><br>
-                            </div>
+            <div class="row align-items-center"> <!-- align-items-center centers the content vertically -->
+                <div class="col-2 d-flex justify-content-center align-items-center"> <!-- justify-content-center centers horizontally, align-items-center centers vertically, d-flex makes the content flexible to changes in screen size -->
+                    <!-- Button to trigger modals -->
+                    <button class="btn btn-primary text-center" data-bs-target="#TitleModal" data-bs-toggle="modal"> <!-- data-bs-target is the id of the modal to open -->
+                        <b><h3>Add Event</h3></b>
+                    </button>
+                </div>
+                <div class="col-10 d-flex justify-content-center align-items-center">
+                    <!-- Centered Title -->
+                    <div class="container py-3 text-center justify-content-center d-flex align-items-center"> <!-- py-3 is padding y-axis 3 -->
+                        <div class="position-relative top-0 start-50 translate-middle-x">
+                            <h1>Welcome to my Calendar!</h1>
                         </div>
                     </div>
-                
+                </div>
             </div>
         </div>
     </div>
@@ -152,8 +151,8 @@
             <div class="col-2 justify-content-center align-items-center d-flex" id="Timeline">
                 Date timeline here
             </div>
-            <div class="col-10 justify-content-center align-items-center d-flex" id="Events">
-                Display Events here
+            <div class="col-10 justify-content-center align-items-center d-flex" id="DisplayEvents">
+                Events will be displayed here
             </div>
         </div>
     </div>
