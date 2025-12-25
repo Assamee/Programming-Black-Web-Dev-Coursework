@@ -1,5 +1,8 @@
 // Accessing the users inputs after the DOM is fully loaded
 document.addEventListener("DOMContentLoaded", () => {
+    // Array to store events
+    const events = []; // Outside of the click listener so it isnt reset on every click
+
     // Access HTML Elements
     const titleInput = document.getElementById("TitleInput");
     const descriptionInput = document.getElementById("DescriptionInput");
@@ -16,6 +19,21 @@ document.addEventListener("DOMContentLoaded", () => {
         const location = locationInput.value;
         const startDate = startdateInput.value;
         const endDate = enddateInput.value;
+
+        // Put the data for each event into an Object
+        const event = {
+            id: Date.now(), // Unique ID based on timestamp
+            title: title,
+            description: description,
+            location: location,
+            startDate: startDate,
+            endDate: endDate
+        };
+
+        // Add the event object to the events array
+        events.push(event); // Add the new event object to the events array
+
+        console.log(events); // Log the events array to the console for debugging
 
         // Create Event Card
         const eventCard = document.createElement("div"); // Create a div for the event card
