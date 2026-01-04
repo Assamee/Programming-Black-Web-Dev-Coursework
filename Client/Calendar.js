@@ -15,13 +15,11 @@ document.addEventListener("DOMContentLoaded", () => {
             // .sort() method uses a sorting algotithm that compares two elements (a and b) at a time
             // new Date() converts the string into a Date object for accurate comparison
             // Subtracting the dates, is used for 1v1 comparisons for the sort method
-            events.sort((a, b) => new Date(a.startDate) - new Date(b.startDate));
+            events.sort((a, b) => new Date(a.startDate) - new Date(b.startDate))
 
-            // Loop through the SORTED list 'events' and display each event on the timeline
-            events.forEach(event => { 
-                addEventToTimeline(event); // Call the function to display each event
-            });
-        }); 
+            // Render the Timeline with the sorted events
+            renderTimeline(events)
+        });
     
     // Access the Save Button HTML Element (inside the DOM)
     const saveButton = document.getElementById("SaveEventButton");
@@ -58,70 +56,104 @@ document.addEventListener("DOMContentLoaded", () => {
          // Update the UI after the server responds
          // .then() ensures that the following code runs only after the fetch request is complete
         .then(response => {
-            if (response.ok) {
-                // If the response is OK (status 200-299), add the event to the timeline display
-                addEventToTimeline(newEvent);
-                clearFormInputs(); // Clear the modal input fields after saving
+            if (response.ok) { // If the response is OK (status 200-299)
+                // Reaload the page to show the updated list of events (MAY BE CHANGED LATER)
+                location.reload(); // Reload the page to fetch and display the updated list of events
+
             } else {
                 alert("Failed to save event. Please try again."); // Alert user if saving failed
             }
         // .catch() to handle any errors that occur during the fetch request (e.g. server is switched off)
         }).catch(error => console.error("Error:", error));
-        
-
 
     }); // End of Save Button event listener
 
 }); // End of DOMContentLoaded event listener
+
 // Functions outside the DOMContentLoaded event listener are only called inside it
 
-// Function to add event to the timeline display
-function addEventToTimeline(event) {
-    // ID of the HTML container where events will be displayed
+
+// Creates the Calendar Headers (one for each new day)
+// This function is called once with the fully sorted array 'events'
+function renderTimeline(events) {
     const displayContainer = document.getElementById("DisplayEvents");
+    displayContainer.innerHTML = ''; // Clear existing content
 
-    // Create Event Card
-    const eventCard = document.createElement("div"); // Create a div for the event card    
-    eventCard.className = "card mb-3 text-start w-100 shadow-sm border-0"; // Add Bootstrap card classes
+    // Variable to track the last date header added
+    let lastDateHeader = null;
 
-    // Create the body wrapper
-    const cardBody = document.createElement("div");
-    cardBody.className = "card-body";
+    events.forEach(event => {
+        //  Get the Date string for the Header
+        const eventDateKey = new Date(event.startDate).toDateString();
 
-        // Create Title
-        const titleElement = document.createElement("h5");
-        titleElement.className = "card-title";
-        titleElement.textContent = event.title; // Browser treats this as text, preventing XSS attacks (malicious code injection)
-        
-        // Create Date Range
-        const dateElement = document.createElement("h6");
-        // Format the start and end date (with helper function)
-        const start = formatDate(event.startDate); 
-        const end = formatDate(event.endDate);
-        dateElement.className = "card-subtitle mb-2 text-muted";
-        dateElement.textContent = `From ${start} To: ${end}`;
+        // If the date has changed, create a new header
+        if (eventDateKey !== lastDateHeader) {
+            const dateHeader = document.createElement("div");
+            dateHeader.className = "sticky-top bg-secondary text-white p-2 px-3 fw-bold mt-3"; // Bootstrap classes for styling
+            dateHeader.textContent = formatDaterHeader(event.startDate);
 
-        // Create Description
-        const descriptionElement = document.createElement("p"); // Create a paragraph for description
-        descriptionElement.className = "card-text"; // Add Bootstrap card-text class
-        descriptionElement.textContent = event.description; // 
+            // Add the date header to the display container
+            displayContainer.appendChild(dateHeader);
 
-        // Create Location
-        const locationElement = document.createElement("p");
-        locationElement.className = "card-text text-muted small";
-        locationElement.textContent = `📍 ${event.location}`;
-
-    // Append all elements to the card body
-    cardBody.appendChild(titleElement);
-    cardBody.appendChild(dateElement);
-    cardBody.appendChild(descriptionElement);
-    cardBody.appendChild(locationElement);
-
-    // Append the card body to the event card
-    eventCard.appendChild(cardBody);
-    // Add the event card to the display container
-    displayContainer.appendChild(eventCard);
+            // Update the lastDateHeader variable to the current event's date
+            lastDateHeader = eventDateKey;
+        }
+        // Create the Clickable List Item
+        const eventButton = createEventItem(event);
+        displayContainer.appendChild(eventButton);
+    });
 }
+
+// Function to create the individual clickable button
+function createEventItem(event) {
+    const button = document.createElement("button");
+    button.type = "button";
+
+    // Bootstrap Classes:
+    // list-group-item: Basic styling
+    // list-group-item-action: Makes it clickable (hover effects)
+    // border-0: Removes border (Clean flush look)
+    // border-start border-4 border-primary: Adds the blue strip on the left
+    button.className = "list-group-item list-group-item-action border-0 border-start border-4 border-primary py-3";
+    button.type = "button"; // Defensive programming to specify button type (instead of letting guess, default is "submit", which would submit a form, causing page reload => unwanted behavior)
+
+    // Format the time (e.g. "10:00 - 12:00")
+    const startTime = new Date(event.startDate).toLocaleTimeString('en-GB', {hour: '2-digit', minute: '2-digit'});
+    const endTime = new Date(event.endDate).toLocaleTimeString('en-GB', {hour: '2-digit', minute: '2-digit'});
+
+    button.innerHTML = `
+        <div class="d-flex w-100 justify-content-between align-items-center">
+            <div>
+                <span class="fw-bold me-3">${startTime}</span> 
+                <span class="fw-bold">${event.title}</span>
+            </div>
+            <small class="text-muted">${endTime}</small>
+        </div>
+        <div class="d-flex w-100 justify-content-between align-items-center mt-1">
+             <small class="text-muted ms-5">${event.location || 'No Location'}</small>
+             </div>
+    `;
+
+    // Event Listener to open the modal when the button is clicked
+    button.addEventListener("click", () => {
+        // I'll implement the modal functionality later
+    });
+    // return button so it can be appended to the display container
+    return button;
+}
+
+
+function formatDaterHeader(rawDateString) {
+    // Turn the raw date string into a Date object
+    const date = new Date(rawDateString);
+    // Formating the Date Header (Uk format)
+    return date.toLocaleDateString('en-GB', {
+        weekday: 'short',  // "Mon"
+        day: 'numeric',    // "1"
+        month: 'short',    // "Jan"
+    }).toUpperCase(); // "MON, 1 JAN"
+}
+
 
 // Function to clear the modal input fields
 function clearFormInputs() {
