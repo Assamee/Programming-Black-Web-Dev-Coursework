@@ -1,5 +1,21 @@
 // Accessing the users inputs after the DOM is fully loaded
 document.addEventListener("DOMContentLoaded", () => {
+    
+    // Promise = an object representing the eventual completion (or failure) of an asynchronous operation
+    // The fetch() function is made to be asynchronous by default (normally made async with async/await keywords)
+    // Because Fetch API is asynchronous, it doesn't stop the rest of the code from running while waiting for the response
+
+    // GET existing events from the server (fetch defaults to GET method)
+    fetch('/events')
+    // .then() is used to handle Promises returned by Fetch API
+        .then(response => response.json()) // Parse the JSON response (turns the JSON string into a JavaScript object)
+        .then(events => { // 'events' is the parsed JSON data collected from the server (stores an array of event objects)
+            // Loop through each event and add it to the timeline display on the HTML webpage
+            events.forEach(event => { 
+                addEventToTimeline(event); // Call the function to display each event
+            });
+        }); 
+    
     // Access the Save Button HTML Element (inside the DOM)
     const saveButton = document.getElementById("SaveEventButton");
 
@@ -31,13 +47,22 @@ document.addEventListener("DOMContentLoaded", () => {
             method: 'POST',
             headers: {'Content-Type': 'application/json' }, // headers specify that the body content is JSON
             body: JSON.stringify(newEvent) // stringify converts the JavaScript object to a JSON string
-        });
+        })
+         // Update the UI after the server responds
+         // .then() ensures that the following code runs only after the fetch request is complete
+        .then(response => {
+            if (response.ok) {
+                // If the response is OK (status 200-299), add the event to the timeline display
+                addEventToTimeline(newEvent);
+                clearFormInputs(); // Clear the modal input fields after saving
+            } else {
+                alert("Failed to save event. Please try again."); // Alert user if saving failed
+            }
+        // .catch() to handle any errors that occur during the fetch request (e.g. server is switched off)
+        }).catch(error => console.error("Error:", error));
+        
 
-        // Call a funtion to display the event on the page
-        addEventToTimeline(newEvent);
 
-        // Clear the modal input fields after saving
-        clearFormInputs();
     }); // End of Save Button event listener
 
 }); // End of DOMContentLoaded event listener
@@ -45,25 +70,47 @@ document.addEventListener("DOMContentLoaded", () => {
 
 // Function to add event to the timeline display
 function addEventToTimeline(event) {
+    // ID of the HTML container where events will be displayed
     const displayContainer = document.getElementById("DisplayEvents");
 
     // Create Event Card
     const eventCard = document.createElement("div"); // Create a div for the event card    
     eventCard.className = "card mb-3 text-start w-100 shadow-sm"; // Add Bootstrap card classes
 
-    // .innerHTML to add HTML content to the event card
-    // ` (Backtick) is used for template literals to embed variables (Like f-strings in Python)
-    eventCard.innerHTML = `
-        <div class="card-body">
-            <h5 class="card-title">${event.title}</h5>
-            <h6 class="card-subtitle mb-2 text-muted"> ${event.startDate} To: ${event.endDate}</h6>
-            <p class="card-text">${event.description}</p>
-            <p class="card-text"><small class="text-muted">📍 ${event.location}</small></p>
-        </div>
-    `;
+    // Create the body wrapper
+    const cardBody = document.createElement("div");
+    cardBody.className = "card-body";
 
+        // Create Title
+        const titleElement = document.createElement("h5");
+        titleElement.className = "card-title";
+        titleElement.textContent = event.title; // Browser treats this as text, preventing XSS attacks (malicious code injection)
+        
+        // Create Date Range
+        const dateElement = document.createElement("h6");
+        dateElement.className = "card-subtitle mb-2 text-muted";
+        dateElement.textContent = `From ${event.startDate} To: ${event.endDate}`;
+
+        // Create Description
+        const descriptionElement = document.createElement("p"); // Create a paragraph for description
+        descriptionElement.className = "card-text"; // Add Bootstrap card-text class
+        descriptionElement.textContent = event.description; // 
+
+        // Create Location
+        const locationElement = document.createElement("p");
+        locationElement.className = "card-text text-muted small";
+        locationElement.textContent = `📍 ${event.location}`;
+
+    // Append all elements to the card body
+    cardBody.appendChild(titleElement);
+    cardBody.appendChild(dateElement);
+    cardBody.appendChild(descriptionElement);
+    cardBody.appendChild(locationElement);
+
+    // Append the card body to the event card
+    eventCard.appendChild(cardBody);
     // Add the event card to the display container
-    DisplayEvents.appendChild(eventCard);
+    displayContainer.appendChild(eventCard);
 }
 
 // Function to clear the modal input fields

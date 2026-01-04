@@ -18,8 +18,8 @@ app.get('/events', (req, res) => {
 app.post('/events', (req, res) => {
     const newEvent = req.body; // Get the new event data from the request body
     events.push(newEvent); // Add the new event to the events array
-    res.json(newEvent); // Respond with the new event
-    res.status(201).end(); // Send a 201 Created status and end the response
+    res.json(newEvent); // Sends the data (the added event) back as JSON response
+    // The res.json() line automatically sends a 200 OK status and ends the POST request
 });
 
 // Start the Server
@@ -28,4 +28,6 @@ app.listen(3000, () => {
 });
 
 // Note: This server uses in-memory storage for events, which means all data will be lost when the server restarts.
+// Need to ensure that everything still works when the server is switched off and on again
+// Will fix this with external storage like a database or file storage like a JSON file in future updates.
 
