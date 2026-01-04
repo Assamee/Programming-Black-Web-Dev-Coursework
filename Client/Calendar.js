@@ -10,7 +10,14 @@ document.addEventListener("DOMContentLoaded", () => {
     // .then() is used to handle Promises returned by Fetch API
         .then(response => response.json()) // Parse the JSON response (turns the JSON string into a JavaScript object)
         .then(events => { // 'events' is the parsed JSON data collected from the server (stores an array of event objects)
-            // Loop through each event and add it to the timeline display on the HTML webpage
+            
+            // Sorting Events by Start Date (earliest first)
+            // .sort() method uses a sorting algotithm that compares two elements (a and b) at a time
+            // new Date() converts the string into a Date object for accurate comparison
+            // Subtracting the dates, is used for 1v1 comparisons for the sort method
+            events.sort((a, b) => new Date(a.startDate) - new Date(b.startDate));
+
+            // Loop through the SORTED list 'events' and display each event on the timeline
             events.forEach(event => { 
                 addEventToTimeline(event); // Call the function to display each event
             });
@@ -75,7 +82,7 @@ function addEventToTimeline(event) {
 
     // Create Event Card
     const eventCard = document.createElement("div"); // Create a div for the event card    
-    eventCard.className = "card mb-3 text-start w-100 shadow-sm"; // Add Bootstrap card classes
+    eventCard.className = "card mb-3 text-start w-100 shadow-sm border-0"; // Add Bootstrap card classes
 
     // Create the body wrapper
     const cardBody = document.createElement("div");
@@ -88,8 +95,11 @@ function addEventToTimeline(event) {
         
         // Create Date Range
         const dateElement = document.createElement("h6");
+        // Format the start and end date (with helper function)
+        const start = formatDate(event.startDate); 
+        const end = formatDate(event.endDate);
         dateElement.className = "card-subtitle mb-2 text-muted";
-        dateElement.textContent = `From ${event.startDate} To: ${event.endDate}`;
+        dateElement.textContent = `From ${start} To: ${end}`;
 
         // Create Description
         const descriptionElement = document.createElement("p"); // Create a paragraph for description
@@ -121,3 +131,20 @@ function clearFormInputs() {
     document.getElementById("StartDateInput").value = '';
     document.getElementById("EndDateInput").value = '';
 }
+
+// Function to format date strings
+// E.g. "2026-01-01T10:00" to "Mon, 1 Jan 2026, 10:00"
+function formatDate(rawDateString) {
+    // Turn the raw date string into a Date object
+    const date = new Date(rawDateString);
+
+    // Formating the Date (Uk format)
+    return date.toLocaleString('en-GB', {
+        weekday: 'short',  // "Mon"
+        day: 'numeric',    // "1"
+        month: 'short',    // "Jan"
+        year: 'numeric',   // "2026"
+        hour: '2-digit',   // "10"
+        minute: '2-digit', // "00"
+        });
+} // End of formatDateString function
