@@ -149,76 +149,168 @@
     </div>
 
     <!--Display Events-->
-    <div class="">
-        <ul class="list-group list-group-flush">
+    <div class="col-12">
+        <div class="list-group list-group-flush">
             <li class="list-group-item list-group-item-action list-group-item-dark">
                 <div class="d-flex justify-content-between">
-                    <small>Date and Time</small>
-                    <div class="">
+                    <div id="DisplayEventTime">
+                        <small>Date and Time</small>
+                    </div>
+                    <div id="DisplayEventTitle">
                         <strong>Event Title</strong>
                     </div>
-                    <div>
+                    <div id="DisplayEventLocation">
                         <small class="text-muted">location</small>
                     </div>
-                    <span class="badge bg-primary rounded-pill float-end">Name of Event Type</span>
+                    <span class="badge bg-primary rounded-pill float-end" id="DisplayEventType">
+                        Name of Event Type
+                    </span>
                 </div>
             </li>
             <li class="list-group-item list-group-item-action list-group-item-dark">
                 <div class="d-flex justify-content-between">
-                    <small>Date and Time</small>
-                    <div class="">
+                    <div id="DisplayEventTime">
+                        <small>Date and Time</small>
+                    </div>
+                    <div id="DisplayEventTitle">
                         <strong>Event Title</strong>
                     </div>
-                    <div>
+                    <div id="DisplayEventLocation">
                         <small class="text-muted">location</small>
                     </div>
-                    <span class="badge bg-primary rounded-pill float-end">Name of Event Type</span>
+                    <span class="badge bg-primary rounded-pill float-end" id="DisplayEventType">
+                        Name of Event Type
+                    </span>
                 </div>
             </li>
             <li class="list-group-item list-group-item-action list-group-item-dark">
                 <div class="d-flex justify-content-between">
-                    <small>Date and Time</small>
-                    <div class="">
+                    <div id="DisplayEventTime">
+                        <small>Date and Time</small>
+                    </div>
+                    <div id="DisplayEventTitle">
                         <strong>Event Title</strong>
                     </div>
-                    <div>
+                    <div id="DisplayEventLocation">
                         <small class="text-muted">location</small>
                     </div>
-                    <span class="badge bg-primary rounded-pill float-end">Name of Event Type</span>
+                    <span class="badge bg-primary rounded-pill float-end" id="DisplayEventType">
+                        Name of Event Type
+                    </span>
                 </div>
             </li>
             <li class="list-group-item list-group-item-action list-group-item-dark">
                 <div class="d-flex justify-content-between">
-                    <small>Date and Time</small>
-                    <div class="">
+                    <div id="DisplayEventTime">
+                        <small>Date and Time</small>
+                    </div>
+                    <div id="DisplayEventTitle">
                         <strong>Event Title</strong>
                     </div>
-                    <div>
+                    <div id="DisplayEventLocation">
                         <small class="text-muted">location</small>
                     </div>
-                    <span class="badge bg-primary rounded-pill float-end">Name of Event Type</span>
+                    <span class="badge bg-primary rounded-pill float-end" id="DisplayEventType">
+                        Name of Event Type
+                    </span>
                 </div>
             </li>
             <li class="list-group-item list-group-item-action list-group-item-dark">
                 <div class="d-flex justify-content-between">
-                    <small>Date and Time</small>
-                    <div class="">
+                    <div id="DisplayEventTime">
+                        <small>Date and Time</small>
+                    </div>
+                    <div id="DisplayEventTitle">
                         <strong>Event Title</strong>
                     </div>
-                    <div>
+                    <div id="DisplayEventLocation">
                         <small class="text-muted">location</small>
                     </div>
-                    <span class="badge bg-primary rounded-pill float-end">Name of Event Type</span>
+                    <span class="badge bg-primary rounded-pill float-end" id="DisplayEventType">
+                        Name of Event Type
+                    </span>
                 </div>
             </li>
-        </ul>
-    </div>
-
-    <div class="container">
-        <div id="DisplayEvents" class="col-12">
-            <!-- Events will be dynamically displayed here -->
         </div>
     </div>
+
+    <div class="col-12">
+
+        <div class="sticky-top bg-body-tertiary p-2 px-3 fw-bold border-bottom border-secondary mb-0 shadow-sm">
+            SUN, 12 JAN
+        </div>
+
+        <div class="list-group list-group-flush mb-5">
+        
+                <button type="button" class="list-group-item list-group-item-action list-group-item-dark border-0 border-start border-4 border-primary" data-bs-toggle="modal" data-bs-target="#EventDetailModal">
+                    <div class="d-flex w-100 justify-content-between align-items-center">
+                        <div class="d-flex align-items-center">
+                            <div class="text-center pe-3" style="min-width: 80px;">
+                                <div class="fw-bold fs-5">09:00</div>
+                                <small class="text-muted" style="font-size: 0.75rem;">10:00</small>
+                            </div>
+                            <div class="vr" style="height: 40px; opacity: 0.2;"></div>
+                            <div class="ms-3">
+                                <h6 class="mb-0 fw-bold">Team Standup</h6>
+                                <small class="text-muted">📍 Conference Room A</small>
+                            </div>
+                        </div>
+                        <span class="badge rounded-pill bg-primary">Work</span>
+                    </div>
+                </button>
+
+                <button type="button" class="list-group-item list-group-item-action list-group-item-dark py-3 border-0 border-start border-4 border-primary" data-bs-toggle="modal" data-bs-target="#EventDetailModal">
+                    <div class="d-flex w-100 justify-content-between align-items-center">
+                        <div class="d-flex align-items-center">
+                            <div class="text-center pe-3" style="min-width: 80px;">
+                                <div class="fw-bold fs-5">12:00</div>
+                                <small class="text-muted" style="font-size: 0.75rem;">13:00</small>
+                            </div>
+                            <div class="vr" style="height: 40px; opacity: 0.2;"></div>
+                            <div class="ms-3">
+                                <h6 class="mb-0 fw-bold">Lunch</h6>
+                                <small class="text-muted">📍 Canteen</small>
+                            </div>
+                        </div>
+                        <span class="badge rounded-pill bg-primary">Work</span>
+                    </div>
+                </button>
+
+                <button type="button" class="list-group-item list-group-item-action list-group-item-dark border-0 border-start border-4 border-danger py-3" data-bs-toggle="modal" data-bs-target="#EventDetailModal">
+                    <div class="row align-items-center w-100 g-0">
+                        
+                        <div class="col-2 text-center">
+                            <div class="fw-bold">09:00</div>
+                            
+                            <div class="text-danger small fw-bold">
+                                Jan 14<br>17:00
+                            </div>
+                        </div>
+
+                        <div class="col-1 text-center">
+                            <div class="d-inline-block border-end border-2 h-100" style="min-height: 40px;"></div>
+                        </div>
+
+                        <div class="col-9 ps-2">
+                            <div class="d-flex justify-content-between align-items-center">
+                                
+                                <div>
+                                    <h6 class="mb-0 fw-bold">Hackathon</h6>
+                                    <small class="text-muted">📍 Main Hall</small>
+                                </div>
+
+                                <span class="badge rounded-pill bg-danger">Important</span>
+                            </div>
+                        </div>
+
+                    </div>
+                </button>
+
+            </div>
+        </div>
+    </div>
+
+
 
         
     <!-- Plan: Write out the HTML with a few example events first 
