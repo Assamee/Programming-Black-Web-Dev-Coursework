@@ -8,8 +8,7 @@
         <title>Calendar</title>
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
         
-        <link rel="stylesheet" href="Calendar.css">
-        <script src="Calendar.js" defer></script> <!-- defer tells the browser to not wait for the script to load (loads it in the backgound) -->
+        <script src="Calendar3.js" defer></script> <!-- defer tells the browser to not wait for the script to load (loads it in the backgound) -->
     </head>
     <body>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
@@ -20,7 +19,7 @@
             <div class="row align-items-center"> <!-- align-items-center centers the content vertically -->
                 <div class="col-2 d-flex justify-content-center align-items-center"> <!-- justify-content-center centers horizontally, align-items-center centers vertically, d-flex makes the content flexible to changes in screen size -->
                     <!-- Button to trigger modals -->
-                    <button class="btn btn-primary text-center" data-bs-target="#TitleModal" data-bs-toggle="modal"> <!-- data-bs-target is the id of the modal to open -->
+                    <button class="btn btn-primary text-center" data-bs-target="#InputEventDetails" data-bs-toggle="modal"> <!-- data-bs-target is the id of the modal to open -->
                         <b><h3>Add Event</h3></b>
                     </button>
                 </div>
@@ -36,117 +35,174 @@
         </div>
     </div>
 
-
-    <div> <!-- Modals -->  
-        <!-- Title Modal -->
-        <!-- "modal fade" for the transistion, "static" prevents closing the modal when clicking outside of it, aria is for accessibility -->
-        <div class="modal fade" id="TitleModal" data-bs-backdrop="static" aria-hidden="true" aria-labelledby="exampleModalToggleLabel" tabindex="-1">
-            <div class="modal-dialog modal-dialog-centered">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h1 class="modal-title fs-5" id="exampleModalToggleLabel">Add Event Title</h1> <!-- fs-5 is font size 5 -->
-                        <!-- Button to close the modal -->
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                    </div>
-                    <div class="modal-body">
-                        <!--Text Box to input the Title-->
-                        <div class="form-floating mb-3"> <!-- form-floating is for floating labels, mb-3 is margin bottom 3 -->
-                            <input type="text" class="form-control" id="TitleInput" placeholder="Title">
-                            <label for="floatingInput">Title</label>
-                        </div>
-                    </div>
-                    <!--Button to go to Description Modal-->
-                    <div class="modal-footer">
-                        <button class="btn btn-primary" data-bs-target="#DescriptionModal" data-bs-toggle="modal">Continue</button> <!-- data-bs-target is the id of the modal to open -->
-                    </div>
-                </div>
+    <div class="container">
+            <h3>Upcoming Events</h3>
+            <div id="DisplayEvents" class="row">
+                <!-- Events will be dynamically inserted here -->
             </div>
-        </div>
-        <!-- Description Modal -->
-        <!-- "modal fade" for the transistion, "static" prevents closing the modal when clicking outside of it, aria is for accessibility -->
-        <div class="modal fade" id="DescriptionModal" data-bs-backdrop="static" aria-hidden="true" aria-labelledby="exampleModalToggleLabel2" tabindex="-1">
-            <div class="modal-dialog modal-dialog-centered">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h1 class="modal-title fs-5" id="exampleModalToggleLabel2">Add Event Description</h1> <!-- fs-5 is font size 5 -->
-                        <!-- Button to close the modal -->
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                    </div>
-                    <div class="modal-body">
-                        <!--Text Box to input the Description-->
-                        <div class="form-floating mb-3"> <!-- form-floating is for floating labels, mb-3 is margin bottom 3 -->
-                            <textarea class="form-control" id="DescriptionInput" placeholder="Description"></textarea> <!-- Textarea for multi-line input -->
-                            <label for="floatingInput">Description</label>
-                        </div>
-                    </div>
-                    <!--Button to go to other Modals-->
-                    <div class="modal-footer">
-                        <!--Button to Return to Title Modal-->
-                        <button class="btn btn-primary" data-bs-target="#TitleModal" data-bs-toggle="modal">Back</button>
-                        <!--Button to go to the Location Modal-->
-                        <button class="btn btn-primary" data-bs-target="#LocationModal" data-bs-toggle="modal">Continue</button>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <!-- Location Modal -->
-        <!-- "modal fade" for the transistion, "static" prevents closing the modal when clicking outside of it, aria is for accessibility -->
-        <div class="modal fade" id="LocationModal" data-bs-backdrop="static" aria-hidden="true" aria-labelledby="exampleModalToggleLabel2" tabindex="-1">
-            <div class="modal-dialog modal-dialog-centered">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h1 class="modal-title fs-5" id="exampleModalToggleLabel2">Add Event Location</h1> <!-- fs-5 is font size 5 -->
-                        <!-- Button to close the modal -->
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                    </div>
-                    <div class="modal-body">
-                        <!--Text Box to input the Location-->
-                        <div class="form-floating mb-3"> <!-- form-floating is for floating labels, mb-3 is margin bottom 3 -->
-                            <input type="text" class="form-control" id="LocationInput" placeholder="Location">
-                            <label for="floatingInput">Location</label>
-                        </div>
-                    </div>
-                    <!--Button to Return to Descrption Modal-->
-                    <div class="modal-footer">
-                        <button class="btn btn-primary" data-bs-target="#DescriptionModal" data-bs-toggle="modal">Back</button>
-                        <!--Button to go to the Time Modal-->
-                        <button class="btn btn-primary" data-bs-target="#TimeModal" data-bs-toggle="modal">Continue</button>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <!-- Time Modal -->
-        <div class="modal fade" id="TimeModal" data-bs-backdrop="static" aria-hidden="true" aria-labelledby="exampleModalToggleLabel2" tabindex="-1">
-            <div class="modal-dialog modal-dialog-centered">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h1 class="modal-title fs-5" id="exampleModalToggleLabel2">Add Event Time</h1>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                    </div>
-                    <div class="modal-body">
-                    <!--Input for the Start Date-->
-                        <div class="form-floating mb-3">
-                            <input type="datetime-local" class="form-control" id="StartDateInput" placeholder="Date">
-                            <label for="floatingInput">Start Date</label>
-                        </div>
-                    <!--Input for the End Date-->
-                        <div class="form-floating mb-3">
-                            <input type="datetime-local" class="form-control" id="EndDateInput" placeholder="Date">
-                            <label for="floatingInput">End Date</label>
-                        </div>
-                    </div>
-                    <!--Button to Return to Location Modal-->
-                    <div class="modal-footer">
-                        <button class="btn btn-primary" data-bs-target="#DescriptionModal" data-bs-toggle="modal">Back</button>
-                        <!--Button to Save-->
-                        <!-- data-bs-dismiss closes the modal -->
-                        <!-- Defensively specified to be a button in case I want to add form submission later for input validation -->
-                        <button type="button" class="btn btn-primary" data-bs-dismiss="modal" aria-label="Close" id="SaveEventButton">Save</button> <!-- Added an ID to be Used in JavaScript -->
-                    </div>
-                </div>
-            </div>
-        </div>   
     </div>
+
+        <div> <!-- Modals -->  
+            <!-- Title Modal -->
+            <!-- "modal fade" for the transistion, "static" prevents closing the modal when clicking outside of it, aria is for accessibility -->
+            <div class="modal fade" id="TitleModal" data-bs-backdrop="static" aria-hidden="true" aria-labelledby="exampleModalToggleLabel" tabindex="-1">
+                <div class="modal-dialog modal-dialog-centered">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h1 class="modal-title fs-5" id="exampleModalToggleLabel">Add Event Title</h1> <!-- fs-5 is font size 5 -->
+                            <!-- Button to close the modal -->
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <!--Text Box to input the Title-->
+                            <div class="form-floating mb-3"> <!-- form-floating is for floating labels, mb-3 is margin bottom 3 -->
+                                <input type="text" class="form-control" id="TitleInput" placeholder="Title">
+                                <label for="floatingInput">Title</label>
+                            </div>
+                        </div>
+                        <!--Button to go to Description Modal-->
+                        <div class="modal-footer">
+                            <button class="btn btn-primary" data-bs-target="#DescriptionModal" data-bs-toggle="modal">Continue</button> <!-- data-bs-target is the id of the modal to open -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Description Modal -->
+            <!-- "modal fade" for the transistion, "static" prevents closing the modal when clicking outside of it, aria is for accessibility -->
+            <div class="modal fade" id="DescriptionModal" data-bs-backdrop="static" aria-hidden="true" aria-labelledby="exampleModalToggleLabel2" tabindex="-1">
+                <div class="modal-dialog modal-dialog-centered">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h1 class="modal-title fs-5" id="exampleModalToggleLabel2">Add Event Description</h1> <!-- fs-5 is font size 5 -->
+                            <!-- Button to close the modal -->
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <!--Text Box to input the Description-->
+                            <div class="form-floating mb-3"> <!-- form-floating is for floating labels, mb-3 is margin bottom 3 -->
+                                <textarea class="form-control" id="DescriptionInput" placeholder="Description"></textarea> <!-- Textarea for multi-line input -->
+                                <label for="floatingInput">Description</label>
+                            </div>
+                        </div>
+                        <!--Button to go to other Modals-->
+                        <div class="modal-footer">
+                            <!--Button to Return to Title Modal-->
+                            <button class="btn btn-primary" data-bs-target="#TitleModal" data-bs-toggle="modal">Back</button>
+                            <!--Button to go to the Location Modal-->
+                            <button class="btn btn-primary" data-bs-target="#LocationModal" data-bs-toggle="modal">Continue</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Location Modal -->
+            <!-- "modal fade" for the transistion, "static" prevents closing the modal when clicking outside of it, aria is for accessibility -->
+            <div class="modal fade" id="LocationModal" data-bs-backdrop="static" aria-hidden="true" aria-labelledby="exampleModalToggleLabel2" tabindex="-1">
+                <div class="modal-dialog modal-dialog-centered">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h1 class="modal-title fs-5" id="exampleModalToggleLabel2">Add Event Location</h1> <!-- fs-5 is font size 5 -->
+                            <!-- Button to close the modal -->
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <!--Text Box to input the Location-->
+                            <div class="form-floating mb-3"> <!-- form-floating is for floating labels, mb-3 is margin bottom 3 -->
+                                <input type="text" class="form-control" id="LocationInput" placeholder="Location">
+                                <label for="floatingInput">Location</label>
+                            </div>
+                        </div>
+                        <!--Button to Return to Descrption Modal-->
+                        <div class="modal-footer">
+                            <button class="btn btn-primary" data-bs-target="#DescriptionModal" data-bs-toggle="modal">Back</button>
+                            <!--Button to go to the Time Modal-->
+                            <button class="btn btn-primary" data-bs-target="#TimeModal" data-bs-toggle="modal">Continue</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Time Modal -->
+            <div class="modal fade" id="TimeModal" data-bs-backdrop="static" aria-hidden="true" aria-labelledby="exampleModalToggleLabel2" tabindex="-1">
+                <div class="modal-dialog modal-dialog-centered">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h1 class="modal-title fs-5" id="exampleModalToggleLabel2">Add Event Time</h1>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                        <!--Input for the Start Date-->
+                            <div class="form-floating mb-3">
+                                <input type="datetime-local" class="form-control" id="StartDateInput" placeholder="Date">
+                                <label for="floatingInput">Start Date</label>
+                            </div>
+                        <!--Input for the End Date-->
+                            <div class="form-floating mb-3">
+                                <input type="datetime-local" class="form-control" id="EndDateInput" placeholder="Date">
+                                <label for="floatingInput">End Date</label>
+                            </div>
+                        </div>
+                        <!--Modal Footer    -->
+                        <div class="modal-footer">
+                            <button class="btn btn-primary" data-bs-target="#DescriptionModal" data-bs-toggle="modal">Back</button>
+                            <!--Button to Save-->
+                            <!-- data-bs-dismiss closes the modal -->
+                            <!-- Defensively specified to be a button in case I want to add form submission later for input validation -->
+                            <button type="button" class="btn btn-primary" data-bs-dismiss="modal" aria-label="Close" id="SaveEventButton">Save</button> <!-- Added an ID to be Used in JavaScript -->
+                        </div>
+                    </div>
+                </div>
+            </div>   
+        </div>
+
+        <!--New Modal Approach-->
+        <form id="newEventForm">
+            <div class="modal fade" id="InputEventDetails" data-bs-backdrop="static" aria-hidden="true" aria-labelledby="exampleModalToggleLabel2" tabindex="-1">
+                <div class="modal-dialog modal-dialog-centered">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h1 class="modal-title fs-5" id="exampleModalToggleLabel2">Add Event Details</h1>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                        <!--Text Box to input the Title-->
+                            <div class="form-floating mb-3"> <!-- form-floating is for floating labels, mb-3 is margin bottom 3 -->
+                                <input type="text" class="form-control" id="TitleInput" name="title" placeholder="Title">
+                                <label for="floatingInput">Title</label>
+                            </div>
+                        <!--Text Box to input the Description-->
+                            <div class="form-floating mb-3"> <!-- form-floating is for floating labels, mb-3 is margin bottom 3 -->
+                                <textarea class="form-control" id="DescriptionInput" name="description" placeholder="Description"></textarea> <!-- Textarea for multi-line input -->
+                                <label for="floatingInput">Description</label>
+                            </div>
+                        <!--Text Box to input the Location-->
+                            <div class="form-floating mb-3"> <!-- form-floating is for floating labels, mb-3 is margin bottom 3 -->
+                                <input type="text" class="form-control" id="LocationInput" name="location" placeholder="Location">
+                                <label for="floatingInput">Location</label>
+                            </div>
+                        <!--Input for the Start Date-->
+                            <div class="form-floating mb-3">
+                                <input type="datetime-local" class="form-control" id="StartDateInput" name="startDate" placeholder="Date">
+                                <label for="floatingInput">Start Date</label>
+                            </div>
+                        <!--Input for the End Date-->
+                            <div class="form-floating mb-3">
+                                <input type="datetime-local" class="form-control" id="EndDateInput" name="endDate" placeholder="Date">
+                                <label for="floatingInput">End Date</label>
+                            </div>
+                        </div>
+                        <!--Modal Footer-->
+                        <div class="modal-footer">
+                            <!--Button to Save-->
+                            <!-- data-bs-dismiss closes the modal -->
+                            <!-- Defensively specified to be a button in case I want to add form submission later for input validation -->
+                            <button type="submit" class="btn btn-primary" data-bs-dismiss="modal" aria-label="Close" id="SaveEventButton">Save</button> <!-- Added an ID to be Used in JavaScript -->
+                        </div>
+                    </div>
+                </div>
+            </div> 
+        </form>
+
+
+
 
     <!--Display Events-->
     <div class="col-12">
@@ -234,48 +290,17 @@
         </div>
     </div>
 
-    <div class="col-12">
 
+
+    <!--Display Events-->
+    <div class="col-12">
+        <!-- Date Header (Displays the LARGE date)-->
         <div class="sticky-top bg-body-tertiary p-2 px-3 fw-bold border-bottom border-secondary mb-0 shadow-sm">
-            SUN, 12 JAN
+            SUN, 12 JAN <!--Date ID-->
         </div>
 
         <div class="list-group list-group-flush mb-5">
         
-                <button type="button" class="list-group-item list-group-item-action list-group-item-dark border-0 border-start border-4 border-primary" data-bs-toggle="modal" data-bs-target="#EventDetailModal">
-                    <div class="d-flex w-100 justify-content-between align-items-center">
-                        <div class="d-flex align-items-center">
-                            <div class="text-center pe-3" style="min-width: 80px;">
-                                <div class="fw-bold fs-5">09:00</div>
-                                <small class="text-muted" style="font-size: 0.75rem;">10:00</small>
-                            </div>
-                            <div class="vr" style="height: 40px; opacity: 0.2;"></div>
-                            <div class="ms-3">
-                                <h6 class="mb-0 fw-bold">Team Standup</h6>
-                                <small class="text-muted">📍 Conference Room A</small>
-                            </div>
-                        </div>
-                        <span class="badge rounded-pill bg-primary">Work</span>
-                    </div>
-                </button>
-
-                <button type="button" class="list-group-item list-group-item-action list-group-item-dark py-3 border-0 border-start border-4 border-primary" data-bs-toggle="modal" data-bs-target="#EventDetailModal">
-                    <div class="d-flex w-100 justify-content-between align-items-center">
-                        <div class="d-flex align-items-center">
-                            <div class="text-center pe-3" style="min-width: 80px;">
-                                <div class="fw-bold fs-5">12:00</div>
-                                <small class="text-muted" style="font-size: 0.75rem;">13:00</small>
-                            </div>
-                            <div class="vr" style="height: 40px; opacity: 0.2;"></div>
-                            <div class="ms-3">
-                                <h6 class="mb-0 fw-bold">Lunch</h6>
-                                <small class="text-muted">📍 Canteen</small>
-                            </div>
-                        </div>
-                        <span class="badge rounded-pill bg-primary">Work</span>
-                    </div>
-                </button>
-
                 <button type="button" class="list-group-item list-group-item-action list-group-item-dark border-0 border-start border-4 border-danger py-3" data-bs-toggle="modal" data-bs-target="#EventDetailModal">
                     <div class="row align-items-center w-100 g-0">
                         

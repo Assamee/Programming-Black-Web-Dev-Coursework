@@ -72,6 +72,20 @@ document.addEventListener("DOMContentLoaded", () => {
 
 // Functions outside the DOMContentLoaded event listener are only called inside it
 
+function DisplayEvents(events) {
+    // Use the DOM to get the element with ID "DisplayEvents" (This is where the events will be displayed)
+    const displayContainer = document.getElementById("DisplayEvents");
+    clearFormInputs(); // Clear the form inputs after displaying events
+
+    // Loop through each event in the events array
+
+
+};
+
+
+
+
+
 
 // Creates the Calendar Headers (one for each new day)
 // This function is called once with the fully sorted array 'events'
