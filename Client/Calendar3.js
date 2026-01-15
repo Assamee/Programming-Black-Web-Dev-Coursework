@@ -26,7 +26,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
         // Call the function immediately when the page loads
         loadEvents();
-    }
+    }''
     // ========================================================
     // 2. POST Request: Save a new event (Stevenify-inspired)
     // ========================================================
