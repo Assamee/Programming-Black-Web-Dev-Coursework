@@ -1,3 +1,6 @@
+//Client/Calendar.js
+// === Main Client-Side JavaScript for Calendar Application ===
+
 // Import necessary functions from other modules
 import { getLocalNowString, getOneHourLaterString } from './DateHandling.js';
 import { DisplayEvents, updateNavbarHeight, clearFormInputs } from './UpdateWebpage.js';

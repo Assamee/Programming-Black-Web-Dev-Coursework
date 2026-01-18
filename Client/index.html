@@ -1,3 +1,6 @@
+<!-- Client/index.html -->
+<!-- === Main HTML File for Calendar Application === -->
+
 <!doctype html>
 <!--Throughout this code the Bootstrap framework has been used -->
 <!-- I am making a Calendar Application with a vertical timeline. (Like the Google Calendar Schedule Mode) -->
@@ -252,41 +255,39 @@
 
                 </div>
             </button>
-        
-        
-                <button type="button" class="list-group-item list-group-item-action list-group-item-dark border-0 border-start border-4 border-danger py-3" data-bs-toggle="modal" data-bs-target="#EventDetailModal">
-                    <div class="row align-items-center w-100 g-0">
-                        
-                        <div class="col-2 text-center">
-                            <div class="fw-bold">09:00</div>
-                            
-                            <div class="text-danger small fw-bold">
-                                Jan 14<br>17:00
-                            </div>
-                        </div>
 
-                        <div class="col-1 text-center">
-                            <div class="d-inline-block border-end border-2 h-100" style="min-height: 40px;"></div>
-                        </div>
-
-                        <div class="col-9 ps-2">
-                            <div class="d-flex justify-content-between align-items-center">
-                                
-                                <div>
-                                    <h6 class="mb-0 fw-bold">Hackathon</h6>
-                                    <small class="text-muted">📍 Main Hall</small>
-                                </div>
-
-                                <span class="badge rounded-pill bg-danger">Important</span>
-                            </div>
-                        </div>
-
-                    </div>
-                </button>
-            </div>
-        
         </div>
     </div>
+
+    <div class="modal fade" id="EventDetailModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5">Event Details</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            
+            <div class="modal-body">
+                <h4 id="DetailTitle" class="fw-bold">[Title]</h4>
+                <p id="DetailDescription" class="text-secondary">[Description]</p>
+                
+                <hr>
+                
+                <div class="mb-2">
+                    <strong>📍 Location:</strong> <span id="DetailLocation">[Location]</span>
+                </div>
+                <div>
+                    <strong>🕒 Time:</strong> <span id="DetailTime">[Time]</span>
+                </div>
+            </div>
+
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" id="EditEventButton">Edit</button>
+                <button type="button" class="btn btn-danger" id="DeleteEventButton">Delete</button>
+            </div>
+        </div>
+    </div>
+</div>
 
 
 

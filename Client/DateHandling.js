@@ -1,5 +1,5 @@
 //Client/DateHandling.js
-// This module contains functions for formatting dates and times, as well as date-related calculations.
+// === This module contains functions for formatting dates and times, as well as date-related calculations ===
 
 // ==========================================
 // Date and Time Formatting Functions

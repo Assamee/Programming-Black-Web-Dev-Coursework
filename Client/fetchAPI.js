@@ -1,5 +1,6 @@
 // Client/fetchAPI.js
-// This module contains functions to interact with the server's API endpoints for fetching and posting events.
+// === This module contains functions to interact with the server's API endpoints for fetching and posting events ===
+    
 export async function fetchEvents() {
     try {
         const response = await fetch('/events'); // Fetch events from the server (Fetch API defaults to GET method)
@@ -23,3 +24,16 @@ export async function postEvent(eventData) { // eventData is a JS object represe
         throw error; // Re-throw the error for further handling
     }
 }
+
+export async function deleteEvent(eventId) {
+    try { // Send a DELETE request (to /events/:id) on the server to delete the event with the specified ID
+        const response = await fetch(`/events/${eventId}`, {
+            method: 'DELETE'
+        });
+        return response; // Return the Response from the server
+    } catch (error) {
+        console.error("Error deleting event:", error);
+        throw error; // Re-throw the error for further handling
+    }
+}
+

@@ -1,3 +1,6 @@
+//server.js
+// === Startup File to Launch the Express Server ===
+
 // Import the Express app defined in app.js
 const app = require('./app');
 

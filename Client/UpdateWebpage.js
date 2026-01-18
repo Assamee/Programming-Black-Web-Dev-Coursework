@@ -1,5 +1,6 @@
 //Client/UpdateWebpage.js
-// This module contains functions to update the webpage UI with event data and handle layout adjustments
+// === This module contains functions to update the webpage UI with event data and handle layout adjustments ===
+
 // --- Import ---
 import { formatTime, formatShortDate, formatDateHeader } from './DateHandling.js';
 
@@ -94,7 +95,7 @@ export function DisplayEvents(events) {
         
         // Check if the event starts and ends on the same day
         const isSameDay = (start.toDateString() === end.toDateString());
-        
+
         // Format the end date display based on whether it's the same day or not
         const endDateDisplay = isSameDay
             ? endTime // If same day, only show time (e.g., "10:00")
