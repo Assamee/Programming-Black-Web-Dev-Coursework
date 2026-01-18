@@ -18,7 +18,11 @@ document.addEventListener("DOMContentLoaded", () => {
 
             // Await = pause the function until the fetch Promise resolves
             const response = await fetch('/events'); // Fetch events from the server (Fetch defaults to GET method)
-            const events = await response.json(); // .json parses the JSON response body into a JavaScript object
+            let events = await response.json(); // .json parses the JSON response body into a JavaScript object
+
+             // Filter out events without a startDate
+            events = events.filter(event => event.startDate);
+
 
             // Sorting Events by Start Date (earliest first)
             // .sort() method uses a sorting algotithm that compares two elements (a and b) at a time
@@ -100,6 +104,67 @@ document.addEventListener("DOMContentLoaded", () => {
         }); // End of form submit event listener
     } // End of if(form) check
 
+    // ========================================================
+    // 3. Auto-fill Date/Time when opening Modal
+    // ========================================================
+
+    const eventModal = document.getElementById('InputEventDetails');
+    // show.bs.modal is a Bootstrap-specific event that fires when the modal is about to be shown
+    eventModal.addEventListener('show.bs.modal', () => {
+
+        // Get the start and end date input fields
+        const startDateInput = document.getElementById('StartDateInput');
+        const endDateInput = document.getElementById('EndDateInput');
+
+        // Only set the default date/time if the Start Date is currently empty
+        if (!startDateInput.value) {
+            const now = new Date(); // Get current Time (for Start Date)
+            const end = new Date(now);
+            end.setHours(now.getHours() + 1); // Default End Date to 1 hour after Start Date
+
+            // ADJUST FOR TIMEZONES
+            // .getTimezoneOffset() returns the difference in minutes between UTC and Local
+            // Subtract to account for timezones (so .toISOString() looks like local time)
+            now.setMinutes(now.getMinutes() - now.getTimezoneOffset());
+            end.setMinutes(end.getMinutes() - end.getTimezoneOffset());
+            
+            // Format ISO string (YYYY-MM-DDTHH:MM:SS.sssZ) into 'YYYY-MM-DDTHH:MM'
+            const currentDateTime = now.toISOString().slice(0,16);
+        
+            // Set the value of the Start Date input to the current date/time
+            startDateInput.value = currentDateTime;
+
+            // Only auto-fill End Date if it's also empty
+            if (!endDateInput.value) {
+                endDateInput.value = end.toISOString().slice(0,16);
+            }
+        }
+    });
+
+    const startDateInput = document.getElementById('StartDateInput');
+    const endDateInput = document.getElementById('EndDateInput');
+
+    // if both inputs exist, add event listener to Start Date input
+    if (startDateInput && endDateInput) {
+        startDateInput.addEventListener('change', () => {
+
+            const newStart = new Date(startDateInput.value);
+
+            // Check if the new start date is valid (NOT an error)
+            if (!isNaN(newStart.getTime())) {
+                // Set the end date to be 1 hour after the new start date
+                const newEnd = new Date(newStart);
+                newEnd.setHours(newStart.getHours() + 1);
+
+                // ADJUST FOR TIMEZONES
+                newEnd.setMinutes(newEnd.getMinutes() - newEnd.getTimezoneOffset());
+                // Update the End Date input field
+                endDateInput.value = newEnd.toISOString().slice(0,16);
+            }
+        }
+    )};
+
+
 }); // End of DOMContentLoaded event listener
 
 // Functions outside the DOMContentLoaded event listener are only called inside it
@@ -136,7 +201,7 @@ function DisplayEvents(events) {
 
         // If the date has changed, create a new header
         if (headerDateString !== lastHeaderDate) {
-            
+        
             // Create and append the Date Header
             const headerDiv = document.createElement('div');
             // Sticky-top makes it stick to the top while scrolling
@@ -165,30 +230,26 @@ function DisplayEvents(events) {
 
         // Parse the start and end dates
         const start = new Date(event.startDate);
-        const end = new Date(event.endDate || event.startDate); // Fallback to startDate if endDate is missing
+        let end;
+        if (event.endDate) { // If an end date exists, use it
+            end = new Date(event.endDate);
+        } else {  // Default to 1 hour after start time if end time is missing
+            end = new Date(start);
+            end.setHours(start.getHours() + 1);
+        }
 
         // Variables to hold formatted date/time strings
-        let startTime, endTime, shortDate;
-
-        // Check if the date is Invalid
-        if (isNaN(start.getTime())) { // isNaN check for Invalid/Missing Date
-            // If date is missing/invalid, use placeholders
-            startTime = "No Time";
-            endTime = "No Time";
-            shortDate = "No Date";
-        } else {
-            // If date is good, format it normally
-            startTime = formatTime(start);
-            endTime = formatTime(end);
-            shortDate = formatShortDate(start);
-        }
+        const startTime = formatTime(start);
+        const endTime = formatTime(end);
+        const shortDate = formatShortDate(start);
+        
 
         // Create the HTML structure for the single event item
         const itemHTML = ` <!-- Event Item Button -->
                 <button type="button" class="list-group-item list-group-item-action list-group-item-dark border-bottom py-3" data-bs-toggle="modal" data-bs-target="#EventDetailModal">
-                    <div class="row align-items-center w-100 g-0">
+                    <div class="row align-items-center w-100 g-0 flex-nowrap">
                         
-                        <div class="col-2 text-center">
+                        <div class="col-auto text-center" flex-shrink="0" style="width: 75px;">
                             <div class="fw-bold">${startTime}</div>
 
                             <div class="text-danger small fw-bold">
@@ -196,19 +257,19 @@ function DisplayEvents(events) {
                             </div>
                         </div>
 
-                        <div class="col-1 text-center">
+                        <div class="col-auto text-center px-2">
                             <div class="d-inline-block border-end border-2 h-100" style="min-height: 40px;"></div>
                         </div>
 
-                        <div class="col-9 ps-2">
+                        <div class="col ps-2" style="min-width: 0;">
                             <div class="d-flex justify-content-between align-items-center">
 
-                                <div>
-                                    <h6 class="mb-0 fw-bold">${title}</h6>
-                                    <small class="text-muted">📍 ${location}</small>
+                                <div style="min-width: 0;">
+                                    <h6 class="mb-0 fw-bold text-truncate">${title}</h6>
+                                    <small class="text-muted text-truncate d-block">📍 ${location}</small>
                                 </div>
 
-                                <span class="badge rounded-pill bg-danger">${type}</span>
+                                <span class="badge rounded-pill bg-danger flex-shrink-0">${type}</span>
                             </div>
                         </div>
 

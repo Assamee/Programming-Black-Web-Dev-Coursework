@@ -163,7 +163,7 @@
         </div>
 
         <!--New Modal Approach-->
-        <form id="newEventForm">
+        <form id="newEventForm" novalidate>
             <div class="modal fade" id="InputEventDetails" data-bs-backdrop="static" aria-hidden="true" aria-labelledby="exampleModalToggleLabel2" tabindex="-1">
                 <div class="modal-dialog modal-dialog-centered">
                     <div class="modal-content">
@@ -190,13 +190,14 @@
                         <!--Input for the Start Date-->
                             <div class="form-floating mb-3">
                                 <input type="datetime-local" class="form-control" id="StartDateInput" name="startDate" placeholder="Date">
-                                <label for="floatingInput">Start Date</label>
+                                <label for="floatingInput">Start Date*</label>
                             </div>
                         <!--Input for the End Date-->
                             <div class="form-floating mb-3">
                                 <input type="datetime-local" class="form-control" id="EndDateInput" name="endDate" placeholder="Date">
                                 <label for="floatingInput">End Date</label>
                             </div>
+                            <span class="text-muted small">* Required Field</span>
                         </div>
                         <!--Modal Footer-->
                         <div class="modal-footer">
