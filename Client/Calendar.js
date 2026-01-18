@@ -4,7 +4,7 @@
 // Import necessary functions from other modules
 import { getLocalNowString, getOneHourLaterString } from './DateHandling.js';
 import { DisplayEvents, updateNavbarHeight, clearFormInputs } from './UpdateWebpage.js';
-import { fetchEvents, postEvent } from './fetchAPI.js';
+import { fetchEvents, postEvent, deleteEvent } from './fetchAPI.js';
 
 // Accessing the DOM after it is fully loaded
 document.addEventListener("DOMContentLoaded", () => {
@@ -128,5 +128,60 @@ document.addEventListener("DOMContentLoaded", () => {
             }
         });
     }
+
+    // ========================================================
+    // 5. Handle Event Details (View & Delete)
+    // ========================================================
+
+    let currentEventId = null; // Store the ID of the event currently being viewed
+    const detailModal = document.getElementById('EventDetailModal');
+
+    // When the modal opens, populate it with the event details
+    if (detailModal) {
+        detailModal.addEventListener('show.bs.modal', (event) => {
+            // "relatedTarget" is the specific button that was clicked
+            const button = event.relatedTarget; 
+            
+            // Extract info from the button's data-attributes
+            currentEventId = button.getAttribute('data-id'); 
+            const title = button.getAttribute('data-title');
+            const location = button.getAttribute('data-location');
+            const description = button.getAttribute('data-description');
+            const timeString = button.getAttribute('data-timestring');
+        
+            // Inject into the Modal HTML
+            document.getElementById('DetailTitle').innerText = title;
+            document.getElementById('DetailLocation').innerText = location;
+            document.getElementById('DetailDescription').innerText = description || "No description provided.";
+            document.getElementById('DetailTime').innerText = timeString;
+        });
+    }
+    // Handle Delete Button Click
+    const deleteButton = document.getElementById('DeleteEventButton');
+    if (deleteButton) {
+        deleteButton.addEventListener('click', async () => {
+            if (!currentEventId) return; // No event selected (safety check)
+
+            if(!confirm("Are you sure you want to delete this event?")) return; // Confirm deletion with the user
+
+            const response = await deleteEvent(currentEventId); // Use the imported deleteEvent function
+
+            if (response.ok) { // If deletion was successful
+                // Close the modal
+                const modalInstance = bootstrap.Modal.getInstance(detailModal);
+                modalInstance.hide();
+
+                // Refresh the event list
+                loadEvents();
+            } else {
+                alert("Failed to delete event"); // Alert the user about the failure
+            }
+        }); // End of delete button click event listener
+    } // End of if(deleteButton) check
+
+
+
+
+    
     
 }); // End of DOMContentLoaded event listener

@@ -21,8 +21,6 @@ export function DisplayEvents(events) {
         container.innerHTML = `<div class="col-12 text-center text-muted p-3">No events found</div>`;
         return;
     }
-
-    let groupHTML = ''; // Variable to hold the HTML for the current group of events
     
     // Creates a wrapper div so the events list fills the Bootstrap grid system correctly
     const wrapper = document.createElement('div');
@@ -47,12 +45,6 @@ export function DisplayEvents(events) {
         // If the date has changed, create a new header
         if (headerDateString !== lastHeaderDate) {
 
-            if (currentListGroup) {
-                // Append the current list group to the wrapper before starting a new one
-                currentListGroup.innerHTML = groupHTML;
-                wrapper.appendChild(currentListGroup);
-                groupHTML = ''; // Reset group HTML for the new date
-            }
             // Create the Date Header div
             const headerDiv = document.createElement('div');
             headerDiv.className = 'sticky-top bg-body-tertiary p-2 px-3 fw-bold border-bottom border-secondary mb-0 shadow-sm';
@@ -107,7 +99,16 @@ export function DisplayEvents(events) {
 
         // Create the HTML structure for the single event item
         const itemHTML = ` <!-- Event Item Button -->
-                <button type="button" class="list-group-item list-group-item-action list-group-item-dark border-bottom py-3" data-bs-toggle="modal" data-bs-target="#EventDetailModal">
+                <button type="button" 
+                class="list-group-item list-group-item-action list-group-item-dark border-bottom py-3" 
+                data-bs-toggle="modal" data-bs-target="#EventDetailModal"
+
+                data-id="${event.id}"
+                data-title="${title}"
+                data-location="${location}"
+                data-description="${event.description || ''}"
+                data-timestring="${startTime} - ${endTime}"
+                >
                     <div class="row align-items-center w-100 g-0 flex-nowrap">
                         
                         <div class="col-auto text-center flex-shrink-0" style="width: 75px;">
