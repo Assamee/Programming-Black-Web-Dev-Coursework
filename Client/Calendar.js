@@ -156,6 +156,8 @@ document.addEventListener("DOMContentLoaded", () => {
             document.getElementById('DetailTime').innerText = timeString;
         });
     }
+
+
     // Handle Delete Button Click
     const deleteButton = document.getElementById('DeleteEventButton');
     if (deleteButton) {
@@ -182,6 +184,4 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
 
-    
-    
 }); // End of DOMContentLoaded event listener

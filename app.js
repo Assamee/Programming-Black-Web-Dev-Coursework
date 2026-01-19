@@ -44,6 +44,13 @@ app.delete('/events/:id', (req, res) => {
     }
 });
 
+app.put("/events/:id",(req,res) => {
+    
+
+
+
+})
+
 
 // Export the app so other files can use it (e.g., for testing)
 module.exports = app;
