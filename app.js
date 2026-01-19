@@ -5,6 +5,9 @@
 const express = require('express');
 const app = express();
 
+// Import the 'fs' module to store events in a JSON file
+const fs = require('fs');
+
 // Middleware (Getting Static files and JSON parsing)
 app.use(express.static('Client')); // Get static files from 'Client' folder
 app.use(express.json()); // Middleware to parse JSON bodies in later requests
@@ -14,6 +17,10 @@ let events = [];
 
 // GET endpoint to retrieve all events from the server
 app.get('/events', (req, res) => {
+    //
+
+
+
     res.json(events); // Send the events array as JSON response
 });
 
@@ -25,6 +32,11 @@ app.post('/events', (req, res) => {
 
     events.push(newEvent); // Add the new event to the events array
     console.log("New event added:", newEvent.title, "ID:", newEvent.id); // Log for debugging
+
+    // Write the updated events array to 'events.json' file for persistence
+    let data = JSON.stringify(events, null, 2); // null and 2 are for pretty-printing
+    fs.writeFileSync('./events.json', data);
+    console.log("Events saved to events.json", data);
 
     res.json(newEvent); // Sends the data (the added event) back as JSON response
     // The res.json() line automatically sends a 200 OK status and ends the POST request
@@ -45,7 +57,7 @@ app.delete('/events/:id', (req, res) => {
 });
 
 app.put("/events/:id",(req,res) => {
-    
+
 
 
 
