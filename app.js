@@ -8,19 +8,18 @@ const app = express();
 // Import the 'fs' module to store events in a JSON file
 const fs = require('fs');
 
+// Import existing events from 'events.json' file
+const jsonContent = require('./events.json');
+
 // Middleware (Getting Static files and JSON parsing)
 app.use(express.static('Client')); // Get static files from 'Client' folder
 app.use(express.json()); // Middleware to parse JSON bodies in later requests
 
 // In-memory array to store events (Temporary storage)
-let events = [];
+let events = jsonContent || [];
 
 // GET endpoint to retrieve all events from the server
 app.get('/events', (req, res) => {
-    //
-
-
-
     res.json(events); // Send the events array as JSON response
 });
 
