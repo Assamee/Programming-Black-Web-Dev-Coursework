@@ -4,7 +4,7 @@
 // Import necessary functions from other modules
 import { getLocalNowString, getOneHourLaterString } from './DateHandling.js';
 import { DisplayEvents, updateNavbarHeight, clearFormInputs } from './UpdateWebpage.js';
-import { fetchEvents, fetchEventTypes, postEvent, deleteEvent } from './fetchAPI.js';
+import { fetchEvents, fetchEventsByTitle, fetchEventTypes, postEvent, deleteEvent } from './fetchAPI.js';
 
 // Accessing the DOM after it is fully loaded
 document.addEventListener("DOMContentLoaded", () => {
@@ -206,6 +206,40 @@ document.addEventListener("DOMContentLoaded", () => {
             }
         }); // End of delete button click event listener
     } // End of if(deleteButton) check
+
+
+    // ========================================================
+    // 6. Handle Search Form Submission with Debouncing
+    // ========================================================
+
+    const searchInput = document.getElementById('SearchForm');
+    let searchTimer; // Timer variable for debouncing
+
+    if (searchInput) {
+        searchInput.addEventListener('input', async (event) => {
+            clearTimeout(searchTimer); // Clear the previous timer
+
+            // setTimeout waits 300ms after the user stops typing to execute the search
+            searchTimer = setTimeout(async () => {
+                // Get the search query and trim whitespace
+                const query = event.target.value.trim(); // event.target is the input field, .value is the current text inside it, .trim() removes whitespace
+                const types = await fetchEventTypes(); // Fetch event types for displaying
+                
+                let events;
+                // If there's a search query, fetch matching events; otherwise, fetch all events
+                if (query) {
+                    events = await fetchEventsByTitle(query); // Fetch events matching the search query
+                } else {
+                    events = await fetchEvents(); // If query is empty, fetch all events
+                }
+                DisplayEvents(events, types); // Update the displayed events
+            
+            }, 300); // Wait 300 milliseconds after the user stops typing
+            // Debouncing prevents excessive server requests for fast typers
+        });
+    }
+
+            
 
 
 

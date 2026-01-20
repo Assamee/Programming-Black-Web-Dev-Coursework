@@ -11,6 +11,16 @@ export async function fetchEvents() {
     }
 }
 
+export async function fetchEventsByTitle(title) {
+    try {
+        const response = await fetch(`./events/${title}`); // Fetch events from the server (Fetch API defaults to GET method)
+        return await response.json(); // .json() parses the JSON response body into a JavaScript object
+    } catch (error) {
+        console.error("Error fetching events by title:", error);
+        return []; // Return an empty array on error
+    }
+}
+
 // Fetch Event Types from the server
 export async function fetchEventTypes() {
     try{

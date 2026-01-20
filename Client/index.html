@@ -42,10 +42,11 @@
 
                 <!--Search Bar implemented as a form-->
                 <div class="col-auto col-md-4 p-0 d-flex justify-content-end">
-                    <form id="SearchForm" class="d-flex" role="search">
-                        <div class="input-group">
-                            <input class="form-control" id="SearchInput" type="search" placeholder="Search events..." aria-label="Search">
-                            <button class="btn btn-outline-success" type="submit" id="SearchButton">Go</button>
+                    <form id="SearchForm" class="d-flex w-100 justify-content-end" role="search" onsubmit="return false;">
+                        <div class="form-floating mb-0 w-100"> <!-- form-floating is for floating labels, w-100 is width 100%, mb-0 is margin bottom 0 -->
+                            <!-- Search Input Box -->
+                            <input type="search" class="form-control text-white" id="SearchInput" placeholder="Search events..." aria-label="Search">
+                            <label for="SearchInput">Search events...</label>
                         </div>
                     </form>
                 </div>
