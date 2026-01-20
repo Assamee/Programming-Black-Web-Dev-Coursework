@@ -2,5 +2,13 @@
   {
     "name": "Public Holiday",
     "colour": "success"
+  },
+  {
+    "name": "Lecture",
+    "colour": "primary"
+  },
+  {
+    "name": "Work",
+    "colour": "warning"
   }
 ]

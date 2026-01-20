@@ -49,5 +49,23 @@
     "startDate": "0002-01-01T21:23",
     "endDate": "0002-01-01T22:23",
     "id": "1768944221250"
+  },
+  {
+    "title": "Work event",
+    "description": "",
+    "location": "workplace",
+    "eventType": "Work",
+    "startDate": "2026-01-20T22:49",
+    "endDate": "2026-01-20T23:49",
+    "id": "1768949357169"
+  },
+  {
+    "title": "Lecture event",
+    "description": "",
+    "location": "",
+    "eventType": "Lecture",
+    "startDate": "2026-01-20T22:49",
+    "endDate": "2026-01-20T23:49",
+    "id": "1768949374768"
   }
 ]
