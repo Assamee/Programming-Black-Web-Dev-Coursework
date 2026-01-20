@@ -15,7 +15,7 @@ const jsonContent = require('./events.json');
 app.use(express.static('Client')); // Get static files from 'Client' folder
 app.use(express.json()); // Middleware to parse JSON bodies in later requests
 
-// In-memory array to store events (Temporary storage)
+// If the server is started, load existing events from the JSON file into memory
 let events = jsonContent || [];
 
 // GET endpoint to retrieve all events from the server
@@ -56,10 +56,7 @@ app.delete('/events/:id', (req, res) => {
 });
 
 app.put("/events/:id",(req,res) => {
-
-
-
-
+    // Edit button may be implemented in the future
 })
 
 

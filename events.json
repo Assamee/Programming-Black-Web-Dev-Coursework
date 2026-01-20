@@ -1,26 +1,34 @@
 [
-    {
+  {
     "title": "New Years Day",
     "description": "The first day of the year",
     "location": "Earth",
     "startDate": "2026-01-01T00:00",
     "endDate": "2026-01-01T23:59",
     "id": "1"
-    },
-    {
+  },
+  {
     "title": "Christmas Day",
     "description": "Celebration of Christmas",
-    "location": "Earth",
+    "location": "North Pole",
     "startDate": "2026-12-25T00:00",
     "endDate": "2026-12-25T23:59",
     "id": "2"
-    },
+  },
   {
-    "title": "bhjk",
+    "title": "",
     "description": "",
     "location": "",
-    "startDate": "2026-02-01T15:40",
+    "startDate": "",
     "endDate": "",
-    "id": "1768837211096"
+    "id": "1768852337464"
+  },
+  {
+    "title": "kmk",
+    "description": "",
+    "location": "",
+    "startDate": "",
+    "endDate": "",
+    "id": "1768852342811"
   }
 ]
