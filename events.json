@@ -16,19 +16,29 @@
     "id": "2"
   },
   {
+    "title": "Title",
+    "description": "",
+    "location": "",
+    "startDate": "2026-01-20T16:48",
+    "endDate": "2026-01-20T17:48",
+    "id": "1768927688499"
+  },
+  {
     "title": "",
     "description": "",
     "location": "",
-    "startDate": "",
-    "endDate": "",
-    "id": "1768852337464"
+    "eventType": "Public Holiday",
+    "startDate": "2026-01-20T20:13",
+    "endDate": "2026-01-20T21:13",
+    "id": "1768940032571"
   },
   {
-    "title": "kmk",
-    "description": "",
-    "location": "",
-    "startDate": "",
-    "endDate": "",
-    "id": "1768852342811"
+    "title": "Title",
+    "description": "Description",
+    "location": "Location",
+    "eventType": "Public Holiday",
+    "startDate": "2026-01-01T20:16",
+    "endDate": "2026-02-01T21:16",
+    "id": "1768940194679"
   }
 ]

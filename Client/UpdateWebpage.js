@@ -4,7 +4,7 @@
 // --- Import ---
 import { formatTime, formatShortDate, formatDateHeader } from './DateHandling.js';
 
-export function DisplayEvents(events) {
+export function DisplayEvents(events, eventTypes) {
 
     // ========================================================
     // Main Container Setup
@@ -34,7 +34,7 @@ export function DisplayEvents(events) {
     // Loop Through Events and Build HTML
     // ========================================================
 
-    events.forEach(event => {
+    events.forEach((event) => {
         // Get the header string for this event (e.g., "SUN, 12 JAN")
         const headerDateString = formatDateHeader(event.startDate);
     
@@ -70,6 +70,10 @@ export function DisplayEvents(events) {
         const title = event.title || "Untitled Event";
         const location = event.location || "Location TBC";
         const type = event.eventType || "Event";
+
+        // Find the matching oobject in the Event Types array to get the colour
+        const matchingType = eventTypes.find(et => et.name === type); // et is each event type object in the array
+        const colour = matchingType ? matchingType.colour : 'danger'; // Default to 'danger' if no match found (red badge)
 
         // Parse the start and end dates
         const start = new Date(event.startDate);
@@ -107,6 +111,7 @@ export function DisplayEvents(events) {
                 data-title="${title}"
                 data-location="${location}"
                 data-description="${event.description || ''}"
+                data-eventtype="${type}"
                 data-timestring="${startTime} - ${endTime}"
                 >
                     <div class="row align-items-center w-100 g-0 flex-nowrap">
@@ -114,7 +119,7 @@ export function DisplayEvents(events) {
                         <div class="col-auto text-center flex-shrink-0" style="width: 75px;">
                             <div class="fw-bold">${startTime}</div>
 
-                            <div class="text-danger small fw-bold">
+                            <div class="text-${colour} small fw-bold">
                                 ${endDateDisplay}
                             </div>
                         </div>
@@ -131,7 +136,7 @@ export function DisplayEvents(events) {
                                     <small class="text-muted text-truncate d-block">📍 ${location}</small>
                                 </div>
 
-                                <span class="badge rounded-pill bg-danger flex-shrink-0">${type}</span>
+                                <span class="badge rounded-pill bg-${colour} flex-shrink-0">${type}</span>
                             </div>
                         </div>
 

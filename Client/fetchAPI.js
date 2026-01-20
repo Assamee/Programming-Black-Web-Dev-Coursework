@@ -9,7 +9,18 @@ export async function fetchEvents() {
         console.error("Error fetching events:", error);
         return []; // Return an empty array on error
     }
-}   
+}
+
+// Fetch Event Types from the server
+export async function fetchEventTypes() {
+    try{
+        const response = await fetch('/eventTypes'); // Fetch event types from the server
+        return await response.json(); // .json() parses the JSON response body into a JavaScript object
+    } catch (error) {
+        console.error("Error fetching event types:", error);
+        return []; // Return an empty array on error
+    }
+}
 
 export async function postEvent(eventData) { // eventData is a JS object representing the new event
     try {

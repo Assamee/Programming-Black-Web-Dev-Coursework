@@ -4,7 +4,7 @@
 // Import necessary functions from other modules
 import { getLocalNowString, getOneHourLaterString } from './DateHandling.js';
 import { DisplayEvents, updateNavbarHeight, clearFormInputs } from './UpdateWebpage.js';
-import { fetchEvents, postEvent, deleteEvent } from './fetchAPI.js';
+import { fetchEvents, fetchEventTypes, postEvent, deleteEvent } from './fetchAPI.js';
 
 // Accessing the DOM after it is fully loaded
 document.addEventListener("DOMContentLoaded", () => {
@@ -13,24 +13,50 @@ document.addEventListener("DOMContentLoaded", () => {
     window.addEventListener('resize', updateNavbarHeight); // Update navbar height CSS variable on window resize
 
     // ========================================================
-    // 1. Load Events using the FetchAPI.js module 
+    // 1. Load Events and Event Types using the FetchAPI.js module 
     // ========================================================
 
     // Using an async function to use 'await' keyword inside it
     async function loadEvents() {
-        let events = await fetchEvents(); // Use the imported fetchEvents function to get events
+        // Promise.all to fetch BOTH events and event types simultaneously
+        let [events, types] = await Promise.all([
+            fetchEvents(), fetchEventTypes()
+        ]);
+
+        // "" is falsy, so .filter() removes any events with missing title or startDate
         events = events.filter(event => event.title); // Filter out events without a title
         events = events.filter(event => event.startDate); // Filter out events without a startDate
 
         // .sort() method uses a sorting algotithm that compares two elements (a and b) at a time, (new Date() converts the string into a Date object to compare)
-        events.sort((a, b) => new Date(a.startDate) - new Date(b.startDate));
+        events.sort((a, b) => new Date(a.startDate).getTime() - new Date(b.startDate).getTime()); // Sort events by startDate in ascending order
 
-        DisplayEvents(events); // Function to update the UI with the fetched events
+        // Call the DisplayEvents function from UpdateWebpage.js to update the UI
+        DisplayEvents(events, types);
     }
 
     // Call the function immediately when the page loads
     loadEvents();
     
+    // Fetch Event Types
+    async function loadEventTypes() {
+        const eventTypes = await fetchEventTypes(); // Use the imported fetchEventTypes function to get event types
+        const typeSelect = document.getElementById('TypeInput'); // Get the event type dropdown element
+
+        if (!typeSelect) return; // If the dropdown doesn't exist, exit the function
+
+        // Create a new option element in the dropdown for each event type
+        eventTypes.forEach(type => {
+            const option = document.createElement('option'); // Create a new option element
+            option.value = type.name; // Set the option value to the event type name
+            option.text = type.name; // Set the option text to the event type name
+            typeSelect.appendChild(option); // Add the option to the dropdown
+        });
+    }
+
+    // Call the function immediately when the page loads
+    loadEventTypes();
+
+
     // ========================================================
     // 2. Handle Form Submission to Add New Events
     // ========================================================
