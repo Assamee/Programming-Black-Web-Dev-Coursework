@@ -20,7 +20,8 @@
     <div class="navbar sticky-top p-2 mb-0 border-bottom border-secondary text-white bg-body-tertiary"> <!--sticky-top keeps it fixed to the top when scrolling-->
         <div class="container-fluid"> <!--container-fluid for full width -->
             <div class="row align-items-center w-100 m-0"> <!-- align-items-center centers the content vertically -->
-
+                
+                <!--Add Event Button-->
                 <div class="col-auto col-md-4 p-0 d-flex justify-content-start"> <!-- col-auto flexibly changes column width based on content -->
                     <button class="btn btn-primary" data-bs-target="#InputEventDetails" data-bs-toggle="modal"> <!-- data-bs-target is the id of the modal to open -->
                         <span class="fw-bold d-none d-sm-inline">Add Event</span>
@@ -33,10 +34,10 @@
                     <div class="text-center">
                         <!-- Title change for different screen sizes -->
                         <!-- h4 for medium and larger screens, h6 for small screens, m-0 is margin 0-->
-                        <!--d-none hides the element, d-sm-block displays the element on small, medium and larger screens (hidden on extra small screens with d-none)-->
+                        <!--d-none hides the element, d-md-block displays the element on medium, large and extra large screens (hidden on small and extra small screens with d-none)-->
                         <h1 class="h4 m-0 fw-bold d-none d-md-block text-truncate">Welcome to my Calendar!</h1> 
-                        <!--d-sm-none hides the element on small medium and large screens (visible on extra small screens)-->
-                        <h1 class="h6 m-0 fw-bold d-md-none text-truncate">Calendar</h1>
+                        <!--d-md-none hides the element on medium, large and extra large screens (visible on small and extra small screens)-->
+                        <h1 class="h4 m-0 fw-bold d-md-none text-truncate">Calendar</h1>
                     </div>
                 </div>
 
@@ -89,10 +90,16 @@
                         </div>
                     <!--Dropdown to select the Event Type-->
                         <div class="form-floating mb-3">
-                            <select class="form-select" id="TypeInput" name="eventType">
-                                <option selected disabled>Select an event type...</option>
+                            <div class="input-group">
+                                <!--Dropdown Select for Event Type-->
+                                <select class="form-select" id="TypeInput" name="eventType" required>
+                                    <option selected disabled value="" for="floatingInput">Select an event type...</option>
                                 </select>
-                            <label for="TypeInput">Event Type</label>
+                                <!--Button to add a new event type-->
+                                <button class="btn btn-outline-secondary" type="button" data-bs-toggle="modal" data-bs-target="#AddEventTypeModal">
+                                    + New
+                                </button>
+                            </div>
                         </div>
                     <!--Input for the Start Date-->
                         <div class="form-floating mb-3">
@@ -117,8 +124,38 @@
             </div>
         </div> 
     </form>
+    <!--Add Event Type Modal-->
+    <div class="modal fade" id="AddEventTypeModal" aria-hidden="true" aria-labelledby="eventTypeLabel" tabindex="-1">
+        <!--modal-dialog is the container for the modal content-->
+        <div class="modal-dialog modal-dialog-centered modal-sm">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title fs-6" id="eventTypeLabel">New Category</h5>
+                    <button type="button" class="btn-close" data-bs-toggle="modal" data-bs-target="#InputEventDetails" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="NewEventTypeForm">
+                        <div class="mb-2">
+                            <input type="text" class="form-control form-control-sm" id="NewTypeName" placeholder="Category Name (e.g. Work)" required>
+                        </div>
 
-
+                        <div class="mb-2">
+                            <select class="form-select form-select-sm" id="NewTypeColour" required>
+                                <option selected disabled value="">Pick a colour...</option>
+                                <!--Bootstrap colour options, with their corresponding contextual classes-->
+                                <option value="Red">Red</option> <!--danger-->
+                                <option value="Blue">Blue</option> <!--primary-->
+                                <option value="Green">Green</option> <!--success-->
+                                <option value="Yellow">Yellow</option> <!--warning-->
+                                <option value="Grey">Grey</option> <!--secondary-->
+                            </select>
+                        </div>
+                        <button type="submit" class="btn btn-primary btn-sm w-100">Create Type</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
 
 
     <!--Current Display Events-->
@@ -193,21 +230,6 @@
         </div>
     </div>
 
-
-
-        
-    <!-- Plan: Write out the HTML with a few example events first 
-    Use the Bootstrap (e.g. https://getbootstrap.com/docs/5.3/components/list-group/#flush)
-    Then use the HTML to help write the JavaScript to dynamically create the HTML element-->
-
-
-    <!--Each event will be a button that will reveal a modal-->
-    <!--The body will be the event details 
-    And the footer will have buttons for editing and deleting-->
-
-
-    <!-- Add .badges later, for my second entity relationship
-    'can have multiple events for the same event type'-->
 
     </body>
 </html>

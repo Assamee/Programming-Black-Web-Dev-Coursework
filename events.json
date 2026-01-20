@@ -67,5 +67,23 @@
     "startDate": "2026-01-20T22:49",
     "endDate": "2026-01-20T23:49",
     "id": "1768949374768"
+  },
+  {
+    "title": "",
+    "description": "",
+    "location": "",
+    "eventType": "Public Holiday",
+    "startDate": "2026-01-20T23:05",
+    "endDate": "2026-01-21T00:05",
+    "id": "1768950364769"
+  },
+  {
+    "title": "Title",
+    "description": "",
+    "location": "testing location",
+    "eventType": "Lecture",
+    "startDate": "2026-01-20T23:06",
+    "endDate": "2026-01-21T00:06",
+    "id": "1768950382432"
   }
 ]
