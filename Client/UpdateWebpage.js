@@ -20,7 +20,8 @@ export function DisplayEvents(events, eventTypes) {
     if (events.length === 0) {
         container.innerHTML = `<div class="col-12 text-center text-muted p-3">No events found</div>`;
         return;
-    }
+    };
+    
     
     // Creates a wrapper div so the events list fills the Bootstrap grid system correctly
     const wrapper = document.createElement('div');

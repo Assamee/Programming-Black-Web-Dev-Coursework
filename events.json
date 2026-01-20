@@ -40,5 +40,14 @@
     "startDate": "2026-01-01T20:16",
     "endDate": "2026-02-01T21:16",
     "id": "1768940194679"
+  },
+  {
+    "title": "Title",
+    "description": "test",
+    "location": "where",
+    "eventType": "Public Holiday",
+    "startDate": "0002-01-01T21:23",
+    "endDate": "0002-01-01T22:23",
+    "id": "1768944221250"
   }
 ]

@@ -18,35 +18,35 @@
 
     <!--Navbar-->
     <div class="navbar sticky-top p-2 mb-0 border-bottom border-secondary text-white bg-body-tertiary"> <!--sticky-top keeps it fixed to the top when scrolling-->
-        <div class="container">
-            <div class="row align-items-center"> <!-- align-items-center centers the content vertically -->
+        <div class="container-fluid"> <!--container-fluid for full width -->
+            <div class="row align-items-center w-100 m-0"> <!-- align-items-center centers the content vertically -->
 
-                <div class="col-auto"> <!-- col-auto flexibly changes column width based on content -->
+                <div class="col-auto col-md-4 p-0 d-flex justify-content-start"> <!-- col-auto flexibly changes column width based on content -->
                     <button class="btn btn-primary" data-bs-target="#InputEventDetails" data-bs-toggle="modal"> <!-- data-bs-target is the id of the modal to open -->
-                        <span class="fw-bold">Add Event</span>
+                        <span class="fw-bold d-none d-sm-inline">Add Event</span>
+                        <span class="fw-bold d-sm-none">+</span>
                     </button>
                 </div>
 
                 <!-- Centered Title -->
-                <div class="col">
+                <div class="col col-md-4 p-0">
                     <div class="text-center">
                         <!-- Title change for different screen sizes -->
                         <!-- h4 for medium and larger screens, h6 for small screens, m-0 is margin 0-->
                         <!--d-none hides the element, d-sm-block displays the element on small, medium and larger screens (hidden on extra small screens with d-none)-->
-                        <h1 class="h4 m-0 fw-bold d-none d-sm-block">Welcome to my Calendar!</h1> 
+                        <h1 class="h4 m-0 fw-bold d-none d-md-block text-truncate">Welcome to my Calendar!</h1> 
                         <!--d-sm-none hides the element on small medium and large screens (visible on extra small screens)-->
-                        <h1 class="h6 m-0 fw-bold d-sm-none">My Calendar</h1>
+                        <h1 class="h6 m-0 fw-bold d-md-none text-truncate">Calendar</h1>
                     </div>
                 </div>
 
-                <!--Invisible button to keep the title centered-->
-                <div class="col-auto d-none d-sm-block">
-                    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
-                        <span class="navbar-toggler-icon"></span>
-                    </button>
-                    <form id="navbarNavDropdown" class="d-flex" role="search">
-                            <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search"/>
-                            <button class="btn btn-outline-success" type="submit">Search</button>
+                <!--Search Bar implemented as a form-->
+                <div class="col-auto col-md-4 p-0 d-flex justify-content-end">
+                    <form id="SearchForm" class="d-flex" role="search">
+                        <div class="input-group">
+                            <input class="form-control" id="SearchInput" type="search" placeholder="Search events..." aria-label="Search">
+                            <button class="btn btn-outline-success" type="submit" id="SearchButton">Go</button>
+                        </div>
                     </form>
                 </div>
 
@@ -54,6 +54,7 @@
         </div>
     </div>
 
+    <!--Main Container for Events-->
     <div class="container-fluid"> <!--container-fluid for full width -->
             <div id="DisplayEvents" class="row">
                 <!-- Events will be dynamically inserted here -->
