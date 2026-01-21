@@ -22,5 +22,17 @@
   {
     "name": "we like to test",
     "colour": "secondary"
+  },
+  {
+    "name": "New Unique Event Type",
+    "colour": "danger"
+  },
+  {
+    "name": "New Unique Event Type 2",
+    "colour": "danger"
+  },
+  {
+    "name": "New Unique Event Type 3",
+    "colour": "danger"
   }
 ]
