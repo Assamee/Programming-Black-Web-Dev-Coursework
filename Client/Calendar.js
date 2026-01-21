@@ -12,13 +12,14 @@ document.addEventListener("DOMContentLoaded", () => {
     updateNavbarHeight(); // Initial call to set navbar height CSS variable
     window.addEventListener('resize', updateNavbarHeight); // Update navbar height CSS variable on window resize
 
+    const container = document.getElementById("DisplayEvents");
+
     // ========================================================
     // 1. Load Events and Event Types using the FetchAPI.js module 
     // ========================================================
 
     // Using an async function to use 'await' keyword inside it
     async function loadEvents() {
-        const container = document.getElementById("DisplayEvents");
 
         // Try-catch for error handling when fetching data from the server (for 'Graceful Error Handling')
         try {
@@ -38,15 +39,19 @@ document.addEventListener("DOMContentLoaded", () => {
             // Call the DisplayEvents function from UpdateWebpage.js to update the UI
             DisplayEvents(events, types);
         } catch (error) {
-            // 3. IF SERVER IS DOWN: Show Error Message
+            // IF SERVER IS DOWN: Show Error Message
             container.innerHTML = `
                 <div class="alert alert-danger" role="alert">
                     <h4 class="alert-heading">Connection Lost</h4>
-                    <p>We can't reach the server. Is it running?</p>
+                    <p>Please restart the server and try again.</p>
                     <hr>
-                    <button onclick="location.reload()" class="btn btn-outline-danger btn-sm">Try Again</button>
+                    <button id="retryButton(LoadEvents)" class="btn btn-outline-danger btn-sm">Try Again</button>
                 </div>
             `;
+            // Add event listener to the retry button to reload events when clicked
+            document.getElementById('retryButton(LoadEvents)').addEventListener('click', () => {
+                loadEvents(); // Retry loading events
+            });
         }
     }
 
@@ -55,21 +60,34 @@ document.addEventListener("DOMContentLoaded", () => {
     
     // Fetch Event Types
     async function loadEventTypes() {
-        const eventTypes = await fetchEventTypes(); // Use the imported fetchEventTypes function to get event types
-        const typeSelect = document.getElementById('TypeInput'); // Get the event type dropdown element
 
-        if (!typeSelect) return; // If the dropdown doesn't exist, exit the function
+        try {
+            const eventTypes = await fetchEventTypes(); // Use the imported fetchEventTypes function to get event types
+            const typeSelect = document.getElementById('TypeInput'); // Get the event type dropdown element
 
-        // Clear existing options in the dropdown
-        typeSelect.innerHTML = '<option selected disabled value="">Select an event type...</option>';
+            if (!typeSelect) return; // If the dropdown doesn't exist, exit the function
 
-        // Create a new option element in the dropdown for each event type
-        eventTypes.forEach(type => {
-            const option = document.createElement('option'); // Create a new option element
-            option.value = type.name; // Set the option value to the event type name
-            option.text = type.name; // Set the option text to the event type name
-            typeSelect.appendChild(option); // Add the option to the dropdown
-        });
+            // Clear existing options in the dropdown
+            typeSelect.innerHTML = '<option selected disabled value="">Select an event type...</option>';
+
+            // Create a new option element in the dropdown for each event type
+            eventTypes.forEach(type => {
+                const option = document.createElement('option'); // Create a new option element
+                option.value = type.name; // Set the option value to the event type name
+                option.text = type.name; // Set the option text to the event type name
+                typeSelect.appendChild(option); // Add the option to the dropdown
+            });
+        } catch (error) {
+            // IF SERVER IS DOWN: Show Error Message
+            container.innerHTML = `
+                <div class="alert alert-danger" role="alert">
+                    <h4 class="alert-heading">Connection Lost</h4>
+                    <p>Please restart the server and try again.</p>
+                    <hr>
+                    <button id="retryButton" class="btn btn-outline-danger btn-sm">Try Again</button>
+                </div>
+            `;
+        }
     }
 
     // Call the function immediately when the page loads
@@ -88,42 +106,58 @@ document.addEventListener("DOMContentLoaded", () => {
             // STOP the default browser behaviour (which is to reload the page immediately)
             event.preventDefault();
         
-        // ========================================================
-        // Gather Data from the Form Submission
-        // ========================================================
+         try {   
+            // ========================================================
+            // Gather Data from the Form Submission
+            // ========================================================
 
-            // FormData() creates an object, where each key is the 'name' attribute of an input field, and the value is the user-entered data
-            const formData = new FormData(form);
+                // FormData() creates an object, where each key is the 'name' attribute of an input field, and the value is the user-entered data
+                const formData = new FormData(form);
 
-            // Convert the FormData into a standard JavaScript object, then to a JSON string
-            const formObj = Object.fromEntries(formData.entries());
+                // Convert the FormData into a standard JavaScript object, then to a JSON string
+                const formObj = Object.fromEntries(formData.entries());
 
-        // ========================================================
-        // Send the Data to the Server using the FetchAPI.js module
-        // ========================================================
+            // ========================================================
+            // Send the Data to the Server using the FetchAPI.js module
+            // ========================================================
 
-            // Use the imported postEvent function to send data to the server
-            const response = await postEvent(formObj);
-        
-        // ========================================================
-        // Handle the Server's Response
-        // ========================================================
+                // Use the imported postEvent function to send data to the server
+                const response = await postEvent(formObj);
+            
+            // ========================================================
+            // Handle the Server's Response
+            // ========================================================
 
-            //  Handle the Server's Response
-            if (response.ok) { // If the response status is 200-299 (Success)
+                //  Handle the Server's Response
+                if (response.ok) { // If the response status is 200-299 (Success)
 
-                // Close the bootstrap modal via JS here if successful
-                const modalElement = document.getElementById('InputEventDetails');
-                const modalInstance = bootstrap.Modal.getInstance(modalElement); // Bootstrap method to get the modal instance
-                modalInstance.hide(); // Hide the modal
+                    // Close the bootstrap modal via JS here if successful
+                    const modalElement = document.getElementById('InputEventDetails');
+                    const modalInstance = bootstrap.Modal.getInstance(modalElement); // Bootstrap method to get the modal instance
+                    modalInstance.hide(); // Hide the modal
 
-                // Clear Form & Refresh List
-                clearEventFormInputs();
-                loadEvents();
+                    // Clear Form & Refresh List
+                    clearEventFormInputs();
+                    loadEvents();
 
-            } else {
-                // If the server says "400 Bad Request" or "500 Internal Server Error", etc.
-                alert("Failed to save event. Please try again."); // Alert the user about the failure
+                } else {
+                    // If the server says "400 Bad Request" or "500 Internal Server Error", etc.
+                    alert("Failed to save event. Please try again."); // Alert the user about the failure
+                }
+            } catch (error) {
+                // IF SERVER IS DOWN: Show Error Message
+                container.innerHTML = `
+                    <div class="alert alert-danger" role="alert">
+                        <h4 class="alert-heading">Connection Lost</h4>
+                        <p>Please restart the server and try again.</p>
+                        <hr>
+                        <button id="retryButton(PostEvent)" class="btn btn-outline-danger btn-sm">Try Again</button>
+                    </div>
+                `;
+                // Add event listener to the retry button to reload events when clicked
+                document.getElementById('retryButton(PostEvent)').addEventListener('click', () => {
+                    loadEvents(); // Retry loading events
+                });
             }
         }); // End of form submit event listener
     } // End of if(form) check
@@ -211,18 +245,39 @@ document.addEventListener("DOMContentLoaded", () => {
 
             if(!confirm("Are you sure you want to delete this event?")) return; // Confirm deletion with the user
 
-            const response = await deleteEvent(currentEventId); // Use the imported deleteEvent function
+            try {
+                const response = await deleteEvent(currentEventId); // Use the imported deleteEvent function
 
-            if (response.ok) { // If deletion was successful
-                // Close the modal
+                if (response.ok) { // If deletion was successful
+                    // Close the modal
+                    const modalInstance = bootstrap.Modal.getInstance(detailModal);
+                    modalInstance.hide();
+
+                    // Refresh the event list
+                    loadEvents();
+                } else {
+                    alert("Failed to delete event"); // Alert the user about the failure
+                }
+            } catch (error) {
+                // Hide the modal manually
                 const modalInstance = bootstrap.Modal.getInstance(detailModal);
                 modalInstance.hide();
 
-                // Refresh the event list
-                loadEvents();
-            } else {
-                alert("Failed to delete event"); // Alert the user about the failure
+                // Show the "Connection Lost" error
+                const container = document.getElementById("DisplayEvents");
+                container.innerHTML = `
+                    <div class="alert alert-danger" role="alert">
+                        <h4 class="alert-heading">Connection Lost</h4>
+                        <p>Could not delete event. The server seems to be offline.</p>
+                        <hr>
+                        <button id="retryButton(Delete)" class="btn btn-outline-danger btn-sm">Try Again</button>
+                    </div>
+                `;
             }
+            // Add event listener to the retry button to reload events when clicked
+            document.getElementById('retryButton(Delete)').addEventListener('click', () => {
+                loadEvents();
+            });
         }); // End of delete button click event listener
     } // End of if(deleteButton) check
 
@@ -242,17 +297,33 @@ document.addEventListener("DOMContentLoaded", () => {
             searchTimer = setTimeout(async () => {
                 // Get the search query and trim whitespace
                 const query = event.target.value.trim(); // event.target is the input field, .value is the current text inside it, .trim() removes whitespace
-                const types = await fetchEventTypes(); // Fetch event types for displaying
-                
-                let events;
-                // If there's a search query, fetch matching events; otherwise, fetch all events
-                if (query) {
-                    events = await fetchEventsByTitle(query); // Fetch events matching the search query
-                } else {
-                    events = await fetchEvents(); // If query is empty, fetch all events
+                    
+                try {
+                    const types = await fetchEventTypes(); // Fetch event types for displaying
+                    
+                    let events;
+                    // If there's a search query, fetch matching events; otherwise, fetch all events
+                    if (query) {
+                        events = await fetchEventsByTitle(query); // Fetch events matching the search query
+                    } else {
+                        events = await fetchEvents(); // If query is empty, fetch all events
+                    }
+                    DisplayEvents(events, types); // Update the displayed events
+                } catch (error) {
+                    // IF SERVER IS DOWN: Show Error Message
+                    container.innerHTML = `
+                        <div class="alert alert-danger" role="alert">
+                            <h4 class="alert-heading">Connection Lost</h4>
+                            <p>Please restart the server and try again.</p>
+                            <hr>
+                            <button id="retryButton(SearchEvents)" class="btn btn-outline-danger btn-sm">Try Again</button>
+                        </div>
+                    `;
+                    // Add event listener to the retry button to reload events when clicked
+                    document.getElementById('retryButton(SearchEvents)').addEventListener('click', () => {
+                        loadEvents(); // Retry loading events
+                    });
                 }
-                DisplayEvents(events, types); // Update the displayed events
-            
             }, 300); // Wait 300 milliseconds after the user stops typing
             // Debouncing prevents excessive server requests for fast typers
         });
@@ -288,29 +359,51 @@ document.addEventListener("DOMContentLoaded", () => {
         // Send the Data to the Server using the FetchAPI.js module
         // ========================================================
 
-            // Use the imported postEvent function to send data to the server
-            const response = await postEventTypes(newTypeData);
+            try {
+                // Use the imported postEvent function to send data to the server
+                const response = await postEventTypes(newTypeData);
 
-            // Handle the Server's Response
-            if (response.ok) { // If the response status is 200-299 (Success)
+                // Handle the Server's Response
+                if (response.ok) { // If the response status is 200-299 (Success)
 
-                // Clear Form & Refresh Event Types in the dropdown
-                await loadEventTypes();
-                clearEventTypeFormInputs();
+                    // Clear Form & Refresh Event Types in the dropdown
+                    await loadEventTypes();
+                    clearEventTypeFormInputs();
 
-                // Close the new event type modal
+                    // Close the new event type modal
+                    const modalElement = document.getElementById('AddEventTypeModal');
+                    const modalInstance = bootstrap.Modal.getOrCreateInstance(modalElement); // .getOrCreateInstance in case it wasn't initialized yet
+                    modalInstance.hide(); // Hide the modal
+
+                    // Switch back to the main modal after adding a new event type
+                    const Mainmodal = document.getElementById('InputEventDetails'); // Get the DOM element for the main modal
+                    const MainmodalInstance = bootstrap.Modal.getOrCreateInstance(Mainmodal); // Get the Bootstrap modal instance
+                    MainmodalInstance.show(); // Show the main modal
+                
+                } else { // Alert the user about the failure
+                    alert("Category name already exists!");
+                }
+            } catch (error) {
+                // Hide the modal so the user can see the error message
                 const modalElement = document.getElementById('AddEventTypeModal');
-                const modalInstance = bootstrap.Modal.getOrCreateInstance(modalElement); // .getOrCreateInstance in case it wasn't initialized yet
-                modalInstance.hide(); // Hide the modal
-
-                // Switch back to the main modal after adding a new event type
-                const Mainmodal = document.getElementById('InputEventDetails'); // Get the DOM element for the main modal
-                const MainmodalInstance = bootstrap.Modal.getOrCreateInstance(Mainmodal); // Get the Bootstrap modal instance
-                MainmodalInstance.show(); // Show the main modal
-            
-            } else { // Alert the user about the failure
-                alert("Category name already exists!");
+                const modalInstance = bootstrap.Modal.getOrCreateInstance(modalElement);
+                modalInstance.hide();
+                
+                // Show the "Connection Lost" error in the main container
+                const container = document.getElementById("DisplayEvents");
+                container.innerHTML = `
+                    <div class="alert alert-danger" role="alert">
+                        <h4 class="alert-heading">Connection Lost</h4>
+                        <p>Could not save category. The server seems to be offline.</p>
+                        <hr>
+                        <button id="retryButton(AddType)" class="btn btn-outline-danger btn-sm">Try Again</button>
+                    </div>
+                `;
             }
+            // Add event listener to the retry button to reload events when clicked
+            document.getElementById('retryButton(AddType)').addEventListener('click', () => {
+                loadEvents();
+            });
         }); // End of new event type form submit event listener
     };
 
