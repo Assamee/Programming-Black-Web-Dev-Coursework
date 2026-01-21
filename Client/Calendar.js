@@ -3,8 +3,8 @@
 
 // Import necessary functions from other modules
 import { getLocalNowString, getOneHourLaterString } from './DateHandling.js';
-import { DisplayEvents, updateNavbarHeight, clearFormInputs } from './UpdateWebpage.js';
-import { fetchEvents, fetchEventsByTitle, fetchEventTypes, postEvent, deleteEvent } from './fetchAPI.js';
+import { DisplayEvents, updateNavbarHeight, getBootstrapColour, clearEventFormInputs, clearEventTypeFormInputs } from './UpdateWebpage.js';
+import { fetchEvents, fetchEventsByTitle, fetchEventTypes, postEvent, postEventTypes, deleteEvent } from './fetchAPI.js';
 
 // Accessing the DOM after it is fully loaded
 document.addEventListener("DOMContentLoaded", () => {
@@ -43,6 +43,9 @@ document.addEventListener("DOMContentLoaded", () => {
         const typeSelect = document.getElementById('TypeInput'); // Get the event type dropdown element
 
         if (!typeSelect) return; // If the dropdown doesn't exist, exit the function
+
+        // Clear existing options in the dropdown
+        typeSelect.innerHTML = '<option selected disabled value="">Select an event type...</option>';
 
         // Create a new option element in the dropdown for each event type
         eventTypes.forEach(type => {
@@ -99,7 +102,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 modalInstance.hide(); // Hide the modal
 
                 // Clear Form & Refresh List
-                clearFormInputs();
+                clearEventFormInputs();
                 loadEvents();
 
             } else {
@@ -239,8 +242,61 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     }
 
-            
+    // ========================================================
+    // 7. Handle add Event Type Form Submission
+    // ========================================================
 
+    const newEventTypeForm = document.getElementById('NewEventTypeForm');
+
+    if (newEventTypeForm) {
+        newEventTypeForm.addEventListener('submit', async (event) => {
+            // STOP the default browser behaviour (which is to reload the page immediately)
+            event.preventDefault();
+
+            // Get values from the form
+            const name = document.getElementById('NewTypeName').value.trim(); // Trim whitespace and get name input
+            const colour = document.getElementById('NewTypeColour').value; // Get colour input
+            
+            if  (!name || !colour) {
+                alert("Please fill in all fields.");
+                return; // If either field is empty, exit the function
+            }
+
+            const bootstrapColour = getBootstrapColour(colour); // Convert to Bootstrap colour class
+            const newTypeData = {
+                name: name,
+                colour: bootstrapColour
+            };
+
+        // ========================================================
+        // Send the Data to the Server using the FetchAPI.js module
+        // ========================================================
+
+            // Use the imported postEvent function to send data to the server
+            const response = await postEventTypes(newTypeData);
+
+            // Handle the Server's Response
+            if (response.ok) { // If the response status is 200-299 (Success)
+
+                // Clear Form & Refresh Event Types in the dropdown
+                await loadEventTypes();
+                clearEventTypeFormInputs();
+
+                // Close the new event type modal
+                const modalElement = document.getElementById('AddEventTypeModal');
+                const modalInstance = bootstrap.Modal.getOrCreateInstance(modalElement); // .getOrCreateInstance in case it wasn't initialized yet
+                modalInstance.hide(); // Hide the modal
+
+                // Switch back to the main modal after adding a new event type
+                const Mainmodal = document.getElementById('InputEventDetails'); // Get the DOM element for the main modal
+                const MainmodalInstance = bootstrap.Modal.getOrCreateInstance(Mainmodal); // Get the Bootstrap modal instance
+                MainmodalInstance.show(); // Show the main modal
+            
+            } else { // Alert the user about the failure
+                alert("Category name already exists!");
+            }
+        }); // End of new event type form submit event listener
+    };
 
 
 

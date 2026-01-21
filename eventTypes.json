@@ -10,5 +10,17 @@
   {
     "name": "Work",
     "colour": "warning"
+  },
+  {
+    "name": "testing",
+    "colour": "success"
+  },
+  {
+    "name": "I",
+    "colour": "warning"
+  },
+  {
+    "name": "we like to test",
+    "colour": "secondary"
   }
 ]
