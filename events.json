@@ -129,5 +129,22 @@
     "startDate": "2026-01-21T20:55",
     "endDate": "2026-01-21T21:55",
     "id": "1769028927673"
+  },
+  {
+    "title": "SMA",
+    "description": "Will be skipped. ",
+    "location": "TLC",
+    "eventType": "Lecture",
+    "startDate": "2025-01-21T21:48",
+    "endDate": "2025-01-21T22:48",
+    "id": "1769032110124"
+  },
+  {
+    "title": "what",
+    "description": "",
+    "location": "",
+    "startDate": "2024-06-21T21:49",
+    "endDate": "2024-06-21T22:49",
+    "id": "1769032184282"
   }
 ]

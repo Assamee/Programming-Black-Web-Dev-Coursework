@@ -2,7 +2,7 @@
 // === This module contains functions to update the webpage UI with event data and handle layout adjustments ===
 
 // --- Import ---
-import { formatTime, formatShortDate, formatDateHeader } from './DateHandling.js';
+import { formatTime, formatShortDate, formatDateHeader, formatDateHeaderYear } from './DateHandling.js';
 
 export function DisplayEvents(events, eventTypes) {
 
@@ -45,13 +45,16 @@ export function DisplayEvents(events, eventTypes) {
 
         // If the date has changed, create a new header
         if (headerDateString !== lastHeaderDate) {
+            const eventDate = new Date(event.startDate); // Create a Date object from the event's start date
+            const currentYear = new Date().getFullYear(); // Get the current year
+            const eventYear = eventDate.getFullYear(); // Get the year of the event
 
             // Create the Date Header div
             const headerDiv = document.createElement('div');
             headerDiv.className = 'sticky-top bg-body-tertiary p-2 px-3 fw-bold border-bottom border-top border-secondary mb-0 shadow-sm';
             headerDiv.style.top = `var(--navbar-height, 0px)`; // Adjust the top position based on the navbar height
             headerDiv.style.zIndex = 1010; // Ensure the Date Header sits below the navbar (Bootstrap navbar default z-index is 1030, so this should be just below it)
-            headerDiv.innerText = headerDateString; // "SUN, 12 JAN"
+            headerDiv.innerText = (eventYear !== currentYear) ? formatDateHeaderYear(event.startDate) : headerDateString; // "SUN, 12 JAN" or "SUN, 12 JAN 2024" if the year is different to the current year
             wrapper.appendChild(headerDiv);
 
             // Start a new List Group for this day
@@ -62,6 +65,7 @@ export function DisplayEvents(events, eventTypes) {
             // Update the date tracker
             lastHeaderDate = headerDateString;
         }
+
 
         // ========================================================
         // Event Item Logic

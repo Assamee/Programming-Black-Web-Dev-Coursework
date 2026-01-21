@@ -10,18 +10,16 @@ export async function fetchEvents() {
         const response = await fetch('/events'); // Fetch events from the server (Fetch API defaults to GET method)
         return await response.json(); // .json() parses the JSON response body into a JavaScript object
     } catch (error) {
-        console.error("Error fetching events:", error);
-        return []; // Return an empty array on error
+        throw error; // Re-throw the error for further handling
     }
 }
 
 export async function fetchEventsByTitle(title) {
     try {
-        const response = await fetch(`./events/${title}`); // Fetch events from the server (Fetch API defaults to GET method)
+        const response = await fetch(`/events/${title}`); // Fetch events from the server (Fetch API defaults to GET method)
         return await response.json(); // .json() parses the JSON response body into a JavaScript object
     } catch (error) {
-        console.error("Error fetching events by title:", error);
-        return []; // Return an empty array on error
+        throw error; // Re-throw the error for further handling
     }
 }
 
@@ -31,8 +29,7 @@ export async function fetchEventTypes() {
         const response = await fetch('/eventTypes'); // Fetch event types from the server
         return await response.json(); // .json() parses the JSON response body into a JavaScript object
     } catch (error) {
-        console.error("Error fetching event types:", error);
-        return []; // Return an empty array on error
+        throw error; // Re-throw the error for further handling
     }
 }
 
@@ -49,7 +46,6 @@ export async function postEvent(eventData) { // eventData is a JS object represe
         });
         return response; // Return the Response from the server
     } catch (error) {
-        console.error("Error saving event:", error);
         throw error; // Re-throw the error for further handling
     }
 }
@@ -63,7 +59,6 @@ export async function postEventTypes(eventType) { // eventTypes is a JS object r
         });
         return response; // Return the Response from the server
     } catch(error) {
-        console.error("Error saving Event Type:", error);
         throw error; // Re-throw the error for further handling
     }
 }
@@ -79,7 +74,6 @@ export async function deleteEvent(eventId) {
         });
         return response; // Return the Response from the server
     } catch (error) {
-        console.error("Error deleting event:", error);
         throw error; // Re-throw the error for further handling
     }
 }

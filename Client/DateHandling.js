@@ -33,6 +33,17 @@ export function formatDateHeader(rawDateString) {
     }).toUpperCase(); // "MON, 1 JAN"
 }
 
+// --- Extracts "MON, 1 JAN 2024" for the Date Header with Year ---
+export function formatDateHeaderYear(rawDateString) {
+    const date = new Date(rawDateString); // Turn the raw date string into a Date object
+    return date.toLocaleDateString('en-GB', { // Formating the Date Header (Uk format)
+        weekday: 'short',  // "Mon"
+        day: 'numeric',    // "1"
+        month: 'short',    // "Jan"
+        year: 'numeric',   // "2024"
+    }).toUpperCase(); // "MON, 1 JAN 2024"
+}
+
 // ==========================================
 // Date Logic & Calculations
 // ==========================================

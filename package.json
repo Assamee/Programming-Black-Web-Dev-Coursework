@@ -1,7 +1,7 @@
 {
-  "name": "prog-(black)-web-dev",
+  "name": "Calendar-Web-App",
   "version": "1.0.0",
-  "description": "",
+  "description": "Calendar Web Application using Node.js and Express.js",
   "main": "server.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
@@ -12,7 +12,7 @@
     "url": "git+https://github.com/Assamee/Programming-Black-Web-Dev-Coursework.git"
   },
   "keywords": [],
-  "author": "",
+  "author": "As-Samee Clayton",
   "license": "ISC",
   "type": "commonjs",
   "bugs": {
@@ -21,5 +21,8 @@
   "homepage": "https://github.com/Assamee/Programming-Black-Web-Dev-Coursework#readme",
   "dependencies": {
     "express": "^5.2.1"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.11"
   }
 }

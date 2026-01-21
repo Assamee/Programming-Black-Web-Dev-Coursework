@@ -7,7 +7,7 @@ import { DisplayEvents, updateNavbarHeight, getBootstrapColour, clearEventFormIn
 import { fetchEvents, fetchEventsByTitle, fetchEventTypes, postEvent, postEventTypes, deleteEvent } from './fetchAPI.js';
 
 // Accessing the DOM after it is fully loaded
-document.addEventListener("DOMContentLoaded", () => {
+document.addEventListener("DOMContentLoaded", () => { 
     // UI Setup
     updateNavbarHeight(); // Initial call to set navbar height CSS variable
     window.addEventListener('resize', updateNavbarHeight); // Update navbar height CSS variable on window resize
@@ -18,20 +18,36 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // Using an async function to use 'await' keyword inside it
     async function loadEvents() {
-        // Promise.all to fetch BOTH events and event types simultaneously
-        let [events, types] = await Promise.all([
-            fetchEvents(), fetchEventTypes()
-        ]);
+        const container = document.getElementById("DisplayEvents");
 
-        // "" is falsy, so .filter() removes any events with missing title or startDate
-        events = events.filter(event => event.title); // Filter out events without a title
-        events = events.filter(event => event.startDate); // Filter out events without a startDate
+        // Try-catch for error handling when fetching data from the server (for 'Graceful Error Handling')
+        try {
+            // Promise.all to fetch BOTH events and event types simultaneously
+            let [events, types] = await Promise.all([
+                fetchEvents(), fetchEventTypes()
+            ]);
+            // Server-side Error handling
 
-        // .sort() method uses a sorting algotithm that compares two elements (a and b) at a time, (new Date() converts the string into a Date object to compare)
-        events.sort((a, b) => new Date(a.startDate).getTime() - new Date(b.startDate).getTime()); // Sort events by startDate in ascending order
+            // "" is falsy, so .filter() removes any events with missing title or startDate
+            events = events.filter(event => event.title); // Filter out events without a title
+            events = events.filter(event => event.startDate); // Filter out events without a startDate
 
-        // Call the DisplayEvents function from UpdateWebpage.js to update the UI
-        DisplayEvents(events, types);
+            // .sort() method uses a sorting algotithm that compares two elements (a and b) at a time, (new Date() converts the string into a Date object to compare)
+            events.sort((a, b) => new Date(a.startDate).getTime() - new Date(b.startDate).getTime()); // Sort events by startDate in ascending order
+
+            // Call the DisplayEvents function from UpdateWebpage.js to update the UI
+            DisplayEvents(events, types);
+        } catch (error) {
+            // 3. IF SERVER IS DOWN: Show Error Message
+            container.innerHTML = `
+                <div class="alert alert-danger" role="alert">
+                    <h4 class="alert-heading">Connection Lost</h4>
+                    <p>We can't reach the server. Is it running?</p>
+                    <hr>
+                    <button onclick="location.reload()" class="btn btn-outline-danger btn-sm">Try Again</button>
+                </div>
+            `;
+        }
     }
 
     // Call the function immediately when the page loads
