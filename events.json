@@ -1,13 +1,5 @@
 [
   {
-    "title": "New Years Day",
-    "description": "The first day of the year",
-    "location": "Earth",
-    "startDate": "2026-01-01T00:00",
-    "endDate": "2026-01-01T23:59",
-    "id": "1"
-  },
-  {
     "title": "Christmas Day",
     "description": "Celebration of Christmas",
     "location": "North Pole",
@@ -162,5 +154,29 @@
     "type": "Meeting",
     "description": "This is a test event.",
     "id": "1769038609019"
+  },
+  {
+    "title": "Test Event",
+    "date": "2024-10-10",
+    "time": "10:00",
+    "type": "Meeting",
+    "description": "This is a test event.",
+    "id": "1769087005239"
+  },
+  {
+    "title": "Test Event",
+    "date": "2024-10-10",
+    "time": "10:00",
+    "type": "Meeting",
+    "description": "This is a test event.",
+    "id": "1769087174299"
+  },
+  {
+    "title": "Test Event",
+    "date": "2024-10-10",
+    "time": "10:00",
+    "type": "Meeting",
+    "description": "This is a test event.",
+    "id": "1769087217662"
   }
 ]
