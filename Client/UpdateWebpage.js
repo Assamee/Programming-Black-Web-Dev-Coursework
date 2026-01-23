@@ -76,7 +76,12 @@ export function DisplayEvents(events, eventTypes) {
         const location = event.location || "Location TBC";
         const type = event.eventType || "Event";
 
-        // Find the matching oobject in the Event Types array to get the colour
+
+        // ==============================================================================
+        // These 2 lines create the relationship between the entities event and event type
+        // ==============================================================================
+
+        // Find the matching object in the Event Types array to get the colour
         const matchingType = eventTypes.find(et => et.name === type); // et is each event type object in the array
         const colour = matchingType ? matchingType.colour : 'danger'; // Default to 'danger' if no match found (red badge)
 

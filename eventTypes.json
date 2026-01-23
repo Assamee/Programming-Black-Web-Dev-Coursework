@@ -12,67 +12,7 @@
     "colour": "warning"
   },
   {
-    "name": "testing",
-    "colour": "success"
-  },
-  {
-    "name": "I",
-    "colour": "warning"
-  },
-  {
-    "name": "we like to test",
-    "colour": "secondary"
-  },
-  {
-    "name": "New Unique Event Type",
-    "colour": "danger"
-  },
-  {
-    "name": "New Unique Event Type 2",
-    "colour": "danger"
-  },
-  {
-    "name": "New Unique Event Type 3",
-    "colour": "danger"
-  },
-  {
-    "name": "New Unique Event Type 4316",
-    "colour": "danger"
-  },
-  {
-    "name": "New Unique Event Type 3599",
-    "colour": "danger"
-  },
-  {
-    "name": "New Unique Event Type 8039",
-    "colour": "danger"
-  },
-  {
-    "name": "New Unique Event Type 6991",
-    "colour": "danger"
-  },
-  {
-    "name": "New Unique Event Type 2565",
-    "colour": "danger"
-  },
-  {
-    "name": "New Unique Event Type 4024",
-    "colour": "danger"
-  },
-  {
-    "name": "New Unique Event Type 7486",
-    "colour": "danger"
-  },
-  {
-    "name": "New Unique Event Type 7042",
-    "colour": "danger"
-  },
-  {
-    "name": "New Unique Event Type 8754",
-    "colour": "danger"
-  },
-  {
-    "name": "New Unique Event Type 4430",
-    "colour": "danger"
+    "name": "Event Type",
+    "colour": "primary"
   }
 ]

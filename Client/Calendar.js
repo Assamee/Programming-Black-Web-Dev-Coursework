@@ -87,6 +87,11 @@ document.addEventListener("DOMContentLoaded", () => {
                     <button id="retryButton" class="btn btn-outline-danger btn-sm">Try Again</button>
                 </div>
             `;
+
+            // Add event listener to the retry button to reload events when clicked
+            document.getElementById('retryButton').addEventListener('click', () => {
+                loadEvents(); // Retry loading events
+            });
         }
     }
 
@@ -273,11 +278,11 @@ document.addEventListener("DOMContentLoaded", () => {
                         <button id="retryButton(Delete)" class="btn btn-outline-danger btn-sm">Try Again</button>
                     </div>
                 `;
+                // Add event listener to the retry button to reload events when clicked
+                document.getElementById('retryButton(Delete)').addEventListener('click', () => {
+                    loadEvents();
+                });    
             }
-            // Add event listener to the retry button to reload events when clicked
-            document.getElementById('retryButton(Delete)').addEventListener('click', () => {
-                loadEvents();
-            });
         }); // End of delete button click event listener
     } // End of if(deleteButton) check
 
@@ -399,11 +404,11 @@ document.addEventListener("DOMContentLoaded", () => {
                         <button id="retryButton(AddType)" class="btn btn-outline-danger btn-sm">Try Again</button>
                     </div>
                 `;
+                // Add event listener to the retry button to reload events when clicked
+                document.getElementById('retryButton(AddType)').addEventListener('click', () => {
+                    loadEvents();
+                });
             }
-            // Add event listener to the retry button to reload events when clicked
-            document.getElementById('retryButton(AddType)').addEventListener('click', () => {
-                loadEvents();
-            });
         }); // End of new event type form submit event listener
     };
 
