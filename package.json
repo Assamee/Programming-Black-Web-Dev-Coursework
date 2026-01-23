@@ -4,7 +4,7 @@
   "description": "Calendar Web Application using Node.js and Express.js",
   "main": "server.js",
   "scripts": {
-    "test": "jest",
+    "test": "jest --coverage",
     "start": "node server.js"
   },
   "repository": {

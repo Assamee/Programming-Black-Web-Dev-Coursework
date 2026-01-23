@@ -8,17 +8,40 @@ const app = express();
 // Import the 'fs' module to store events in a JSON file
 const fs = require('fs');
 
-// Import existing events from 'events.json' and event types from 'eventTypes.json' files
-const jsonContent = require('./events.json');
-const eventTypes = require('./eventTypes.json');
+// =======================================================================
+// Define json file paths based on environment (testing or actual usage)
+// =======================================================================
+
+/* Define the file paths dynamically based on the environment (testing or actual usage)
+ This allows tests to use separate test files without affecting real data
+ 'process.env.NODE_ENV' is a hidden evironment variable that Jest automatically sets to 'test' during testing
+ If the environment is 'test', use the test files; otherwise, use the actual data files
+*/
+const EVENTS_FILE_PATH = (process.env.NODE_ENV === 'test' ? './Tests/test_events.json' : './events.json');
+const EVENT_TYPES_FILE_PATH = (process.env.NODE_ENV === 'test' ? './Tests/test_eventTypes.json' : './eventTypes.json');
+
+// Function to load data from the correct JSON files (test or actual)
+function loadData(filePath) {
+    // Check if the file exists before reading
+    if (fs.existsSync(filePath)) {
+        const data = fs.readFileSync(filePath, 'utf-8'); // Read the file and store its content ('utf-8' ensures that the file is read as a string)
+        return data ? JSON.parse(data) : []; // Parse and return the JSON data, or an empty array if file is empty
+    }
+}
+
 
 // Middleware (Getting Static files and JSON parsing)
+// .use applies to every request made to the server
 app.use(express.static('Client')); // Get static files from 'Client' folder
 app.use(express.json()); // Middleware to parse JSON bodies in later requests
 
 // If the server is started, load events and event types into memory
-let eventsData = jsonContent || [];
-let eventTypesData = eventTypes || [];
+let eventsData = loadData(EVENTS_FILE_PATH) || [];
+let eventTypesData = loadData(EVENT_TYPES_FILE_PATH) || [];
+
+// =====================================================
+// Define the Express Endpoints (Routes)
+// =====================================================
 
 // GET endpoint to retrieve all events from the server
 app.get('/events', (req, res) => {
@@ -30,7 +53,7 @@ app.get('/eventTypes', (req, res) => {
     res.json(eventTypesData); // Send the event types array as JSON response
 });
 
-// POST endpoint to add a new event to the server
+// POST endpoint to add a new event Type to the server
 app.post('/eventTypes', (req,res) => {
     const newEventType = req.body; // Get the new EventType data fron the request body
     const name = newEventType.name;
@@ -47,7 +70,7 @@ app.post('/eventTypes', (req,res) => {
 
     // Write the updated event Types array to 'eventTypes.json' for persistance
     let eventTypeData = JSON.stringify(eventTypesData, null, 2);
-    fs.writeFileSync('./eventTypes.json', eventTypeData);
+    fs.writeFileSync(EVENT_TYPES_FILE_PATH, eventTypeData);
     console.log("Events saved to eventTypes.json", eventTypeData);
 
     res.json(newEventType); // Sends the data (the added event type) back as JSON response
@@ -74,7 +97,7 @@ app.post('/events', (req, res) => {
 
     // Write the updated events array to 'events.json' file for persistence
     let data = JSON.stringify(eventsData, null, 2); // null and 2 are for pretty-printing
-    fs.writeFileSync('./events.json', data);
+    fs.writeFileSync(EVENTS_FILE_PATH, data);
     console.log("Events saved to events.json", data);
 
     res.json(newEvent); // Sends the data (the added event) back as JSON response
@@ -96,7 +119,7 @@ app.delete('/events/:id', (req, res) => {
     eventsData = eventsData.filter(event => event.id !== idToDelete); // Remove the event with the matching ID
     // Write the updated events array to 'events.json' file for persistence
     let data = JSON.stringify(eventsData, null, 2);
-    fs.writeFileSync('./events.json', data);
+    fs.writeFileSync(EVENTS_FILE_PATH, data);
     console.log("Event deleted. Updated events saved to events.json", data);
 
     if (eventsData.length < initialLength) {
@@ -111,5 +134,5 @@ app.put("/events/:id",(req,res) => {
 })
 
 
-// Export the app so other files can use it (e.g., for testing)
+// Export the app so other files can use it (e.g. for testing)
 module.exports = app;

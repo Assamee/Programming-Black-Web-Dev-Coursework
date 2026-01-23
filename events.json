@@ -16,15 +16,6 @@
     "id": "1768927688499"
   },
   {
-    "title": "",
-    "description": "",
-    "location": "",
-    "eventType": "Public Holiday",
-    "startDate": "2026-01-20T20:13",
-    "endDate": "2026-01-20T21:13",
-    "id": "1768940032571"
-  },
-  {
     "title": "Title",
     "description": "Description",
     "location": "Location",
@@ -178,5 +169,63 @@
     "type": "Meeting",
     "description": "This is a test event.",
     "id": "1769087217662"
+  },
+  {
+    "title": "Test Event",
+    "date": "2024-10-10",
+    "time": "10:00",
+    "type": "Meeting",
+    "description": "This is a test event.",
+    "id": "1769088455446"
+  },
+  {
+    "title": "Test Event",
+    "startDate": "2024-10-10",
+    "endDate": "2024-10-10",
+    "time": "10:00",
+    "type": "Meeting",
+    "description": "This is a test event.",
+    "id": "1769092955131"
+  },
+  {
+    "title": "Test Event",
+    "startDate": "2024-10-10",
+    "endDate": "2024-10-10",
+    "time": "10:00",
+    "type": "Meeting",
+    "description": "This is a test event.",
+    "id": "1769093085222"
+  },
+  {
+    "title": "Test Event",
+    "startDate": "2024-10-10T10:00",
+    "endDate": "2024-10-10T11:00",
+    "type": "Meeting",
+    "description": "This is a test event.",
+    "id": "1769093405010"
+  },
+  {
+    "title": "Test Event",
+    "startDate": "2024-10-10T10:00",
+    "endDate": "2024-10-10T11:00",
+    "type": "Meeting",
+    "description": "This is a test event.",
+    "id": "1769094916940"
+  },
+  {
+    "title": "Test Event",
+    "startDate": "2024-10-10T10:00",
+    "endDate": "2024-10-10T11:00",
+    "type": "Meeting",
+    "description": "This is a test event.",
+    "id": "1769095018636"
+  },
+  {
+    "title": "Test Event",
+    "startDate": "2024-10-10T10:00",
+    "endDate": "2024-10-10T11:00",
+    "type": "Meeting",
+    "description": "This is a test event.",
+    "id": "1769160669705"
   }
 ]
