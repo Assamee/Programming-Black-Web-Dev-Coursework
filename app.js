@@ -123,6 +123,8 @@ app.get('/events/id/:id', (req, res) => {
 
     if (event) {
         // Find the type in eventTypesData that matches the event's eventType name
+        // Logic adapted from Google Gemini (Jan 2026)
+        // Prompt: "How to perform a server-side join of two JSON arrays in a Node.js GET request?"
         const relatedType = eventTypesData.find(type => type.name === event.eventType); // Find the related event type
 
         // Create a response object that includes event details and related event type details

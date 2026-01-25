@@ -52,9 +52,13 @@ export function DisplayEvents(events, eventTypes) {
             // Create the Date Header div
             const headerDiv = document.createElement('div');
             headerDiv.className = 'sticky-top bg-body-tertiary p-2 px-3 fw-bold border-bottom border-top border-secondary mb-0 shadow-sm';
+            // Logic adapted from Google Gemini (Jan 2026)
+            // Prompt: "How to create a sticky header below a fixed navbar?"
             headerDiv.style.top = `var(--navbar-height, 0px)`; // Adjust the top position based on the navbar height
             headerDiv.style.zIndex = 1010; // Ensure the Date Header sits below the navbar (Bootstrap navbar default z-index is 1030, so this should be just below it)
-            headerDiv.innerText = (eventYear !== currentYear) ? formatDateHeaderYear(event.startDate) : headerDateString; // "SUN, 12 JAN" or "SUN, 12 JAN 2024" if the year is different to the current year
+
+            // "SUN, 12 JAN" or "SUN, 12 JAN 2024" if the year is different to the current year
+            headerDiv.innerText = (eventYear !== currentYear) ? formatDateHeaderYear(event.startDate) : headerDateString;
             wrapper.appendChild(headerDiv);
 
             // Start a new List Group for this day

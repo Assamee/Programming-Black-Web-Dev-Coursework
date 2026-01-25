@@ -29,7 +29,7 @@ document.addEventListener("DOMContentLoaded", () => {
             ]);
             // Server-side Error handling
 
-            // "" is falsy, so .filter() removes any events with a missing title or startDate
+            // "" is falsy, so .filter() removes any events with a missing title or startDate (if event.title is truthy, it is kept in the array)
             events = events.filter(event => event.title); // Filter out events without a title
             events = events.filter(event => event.startDate); // Filter out events without a startDate
 
@@ -362,6 +362,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
     if (searchInput) {
         searchInput.addEventListener('input', async (event) => {
+            // Debouncing logic adapted from Google Gemini (Jan 2026)
+            // Prompt: "How to debounce search input in JS to limit server requests?"
             clearTimeout(searchTimer); // Clear the previous timer
 
             // setTimeout waits 300ms after the user stops typing to execute the search

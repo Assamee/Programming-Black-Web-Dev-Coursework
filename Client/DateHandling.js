@@ -63,7 +63,8 @@ export function formatDateHeaderYear(rawDateString) {
 // Returns the current local time string for input fields ('YYYY-MM-DDTHH:MM')
 export function getLocalNowString() {
     const now = new Date(); // Get current date and time
-    // Adjust for timezone
+    // Timezone logic adapted from Google Gemini (Jan 2026)
+    // Prompt: "How to convert a JS Date object to a local ISO string for date and time?"
     now.setMinutes(now.getMinutes() - now.getTimezoneOffset());
     return now.toISOString().slice(0, 16); // Format to 'YYYY-MM-DDTHH:MM'
 }
