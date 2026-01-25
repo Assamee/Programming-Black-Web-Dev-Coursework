@@ -14,5 +14,9 @@
   {
     "name": "Event Type",
     "colour": "primary"
+  },
+  {
+    "name": "Great Events",
+    "colour": "secondary"
   }
 ]

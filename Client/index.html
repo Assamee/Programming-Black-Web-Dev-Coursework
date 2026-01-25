@@ -64,68 +64,72 @@
     </div>
 
     <!--Add Event Modal-->
-    
-        <div class="modal fade" id="InputEventDetails" data-bs-backdrop="static" aria-hidden="true" aria-labelledby="exampleModalToggleLabel2" tabindex="-1">
-            <div class="modal-dialog modal-dialog-centered">
-                <div class="modal-content">
+    <div class="modal fade" id="InputEventDetails" data-bs-backdrop="static" aria-hidden="true" aria-labelledby="exampleModalToggleLabel2" tabindex="-1">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
 
-                    <div class="modal-header">
-                        <h1 class="modal-title fs-5" id="exampleModalToggleLabel2">Add Event Details</h1>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                    </div>
-                    <form id="newEventForm" novalidate>
-                        <div class="modal-body">
-                        <!--Text Box to input the Title-->
-                            <div class="form-floating mb-3"> <!-- form-floating is for floating labels, mb-3 is margin bottom 3 -->
-                                <input type="text" class="form-control" id="TitleInput" name="title" placeholder="Title">
-                                <label for="floatingInput">Title*</label>
-                            </div>
-                        <!--Text Box to input the Description-->
-                            <div class="form-floating mb-3"> <!-- form-floating is for floating labels, mb-3 is margin bottom 3 -->
-                                <textarea class="form-control" id="DescriptionInput" name="description" placeholder="Description"></textarea> <!-- Textarea for multi-line input -->
-                                <label for="floatingInput">Description</label>
-                            </div>
-                        <!--Text Box to input the Location-->
-                            <div class="form-floating mb-3"> <!-- form-floating is for floating labels, mb-3 is margin bottom 3 -->
-                                <input type="text" class="form-control" id="LocationInput" name="location" placeholder="Location">
-                                <label for="floatingInput">Location</label>
-                            </div>
-                        <!--Dropdown to select the Event Type-->
-                            <div class="form-floating mb-3">
-                                <div class="input-group">
-                                    <!--Dropdown Select for Event Type-->
-                                    <select class="form-select" id="TypeInput" name="eventType" required>
-                                        <option selected disabled value="" for="floatingInput">Select an event type...</option>
-                                    </select>
-                                    <!--Button to add a new event type-->
-                                    <button class="btn btn-outline-secondary" type="button" data-bs-toggle="modal" data-bs-target="#AddEventTypeModal">
-                                        + New
-                                    </button>
-                                </div>
-                            </div>
-                        <!--Input for the Start Date-->
-                            <div class="form-floating mb-3">
-                                <input type="datetime-local" class="form-control" id="StartDateInput" name="startDate" placeholder="Date">
-                                <label for="floatingInput">Start Date*</label>
-                            </div>
-                        <!--Input for the End Date-->
-                            <div class="form-floating mb-3">
-                                <input type="datetime-local" class="form-control" id="EndDateInput" name="endDate" placeholder="Date">
-                                <label for="floatingInput">End Date</label>
-                            </div>
-                            <span class="text-muted small">* Required Field</span>
-                        </div>
-                        <!--Modal Footer-->
-                        <div class="modal-footer">
-                            <!--Button to Save-->
-                            <!-- data-bs-dismiss closes the modal -->
-                            <!-- Defensively specified to be a button in case I want to add form submission later for input validation -->
-                            <button type="submit" class="btn btn-primary" data-bs-dismiss="modal" aria-label="Close" id="SaveEventButton">Save</button> <!-- Added an ID to be Used in JavaScript -->
-                        </div>
-                    </form>
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="exampleModalToggleLabel2">Add Event Details</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
+
+                <!--Form for adding a new event-->
+                <form id="newEventForm" novalidate>
+                    <div class="modal-body">
+                    <!--Text Box to input the Title-->
+                        <div class="form-floating mb-3"> <!-- form-floating is for floating labels, mb-3 is margin bottom 3 -->
+                            <input type="text" class="form-control" id="TitleInput" name="title" placeholder="Title">
+                            <label for="floatingInput">Title*</label>
+                        </div>
+                    <!--Text Box to input the Description-->
+                        <div class="form-floating mb-3"> <!-- form-floating is for floating labels, mb-3 is margin bottom 3 -->
+                            <textarea class="form-control" id="DescriptionInput" name="description" placeholder="Description"></textarea> <!-- Textarea for multi-line input -->
+                            <label for="floatingInput">Description</label>
+                        </div>
+                    <!--Text Box to input the Location-->
+                        <div class="form-floating mb-3"> <!-- form-floating is for floating labels, mb-3 is margin bottom 3 -->
+                            <input type="text" class="form-control" id="LocationInput" name="location" placeholder="Location">
+                            <label for="floatingInput">Location</label>
+                        </div>
+                    <!--Dropdown to select the Event Type-->
+                        <div class="form-floating mb-3">
+                            <div class="input-group">
+                                <!--Dropdown Select for Event Type-->
+                                <select class="form-select" id="TypeInput" name="eventType" required>
+                                    <option selected disabled value="" for="floatingInput">Select an event type...</option>
+                                </select>
+                                <!--Button to add a new event type-->
+                                <button class="btn btn-outline-secondary" type="button" data-bs-toggle="modal" data-bs-target="#AddEventTypeModal">
+                                    + New
+                                </button>
+                            </div>
+                        </div>
+                    <!--Input for the Start Date-->
+                        <div class="form-floating mb-3">
+                            <input type="datetime-local" class="form-control" id="StartDateInput" name="startDate" placeholder="Date">
+                            <label for="floatingInput">Start Date*</label>
+                        </div>
+                    <!--Input for the End Date-->
+                        <div class="form-floating mb-3">
+                            <input type="datetime-local" class="form-control" id="EndDateInput" name="endDate" placeholder="Date">
+                            <label for="floatingInput">End Date</label>
+                        </div>
+                        <span class="text-muted small">* Required Field</span>
+                    </div>
+
+                    <!-- Hidden input to store Event ID for editing -->
+                    <input type="hidden" id="EventIdInput" name="id" value="">
+
+                    <!--Modal Footer-->
+                    <div class="modal-footer">
+                        <!--Button to Save-->
+                        <!-- data-bs-dismiss closes the modal -->
+                        <button type="submit" class="btn btn-primary" data-bs-dismiss="modal" aria-label="Close" id="SaveEventButton">Save</button>
+                    </div>
+                </form>
             </div>
-        </div> 
+        </div>
+    </div> 
 
 
     <!--Add Event Type Modal-->

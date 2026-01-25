@@ -1,11 +1,11 @@
 [
   {
-    "title": "New Year's Day",
-    "description": "Celebration of the New Year",
-    "location": "Worldwide",
-    "eventType": "Public Holiday",
-    "startDate": "2026-01-01T00:00",
-    "endDate": "2026-01-01T23:59",
+    "title": "New Year's Day Celebration",
+    "description": "Celebration of the New Year across the world. ",
+    "location": "Every where 😁",
+    "eventType": "Great Events",
+    "startDate": "2027-01-01T00:00",
+    "endDate": "2027-01-01T23:59",
     "id": "1"
   },
   {
@@ -18,12 +18,12 @@
     "id": "2"
   },
   {
-    "title": "Title",
+    "title": "2025 event",
     "description": "",
     "location": "",
-    "eventType": "Lecture",
-    "startDate": "2026-01-23T15:33",
-    "endDate": "2026-01-23T16:33",
-    "id": "1769182450342"
+    "eventType": "Work",
+    "startDate": "2025-12-09T12:47",
+    "endDate": "2025-12-09T13:47",
+    "id": "1769345291523"
   }
 ]

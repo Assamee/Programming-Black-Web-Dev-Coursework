@@ -76,11 +76,6 @@ export function DisplayEvents(events, eventTypes) {
         const location = event.location || "Location TBC";
         const type = event.eventType || "Event";
 
-
-        // ==============================================================================
-        // These 2 lines create the relationship between the entities event and event type
-        // ==============================================================================
-
         // Find the matching object in the Event Types array to get the colour
         const matchingType = eventTypes.find(et => et.name === type); // et is each event type object in the array
         const colour = matchingType ? matchingType.colour : 'danger'; // Default to 'danger' if no match found (red badge)
@@ -110,18 +105,21 @@ export function DisplayEvents(events, eventTypes) {
         // =======================================================
         // Create Event Item HTML
         // =======================================================
-
+        
         // Create the HTML structure for the single event item
         const itemHTML = ` <!-- Event Item Button -->
                 <button type="button" 
                 class="list-group-item list-group-item-action list-group-item-dark border-bottom py-3" 
                 data-bs-toggle="modal" data-bs-target="#EventDetailModal"
 
+                
                 data-id="${event.id}"
                 data-title="${title}"
                 data-location="${location}"
                 data-description="${event.description || ''}"
                 data-eventtype="${type}"
+                data-startdate="${event.startDate}"
+                data-enddate="${event.endDate || ''}"
                 data-timestring="${startTime} - ${endTime}"
                 >
                     <div class="row align-items-center w-100 g-0 flex-nowrap">
@@ -192,10 +190,20 @@ export function getBootstrapColour(colourName) {
 
 // Function to clear all input fields in the new event form
 export function clearEventFormInputs() {
-    document.getElementById('newEventForm').reset();
+    const form = document.getElementById('newEventForm');
+    if (form)
+        form.reset();
+
+    // Reset the hidden event ID input to an empty string (Extra security to avoid accidental edits)
+    const eventIdInput = document.getElementById('EventIdInput');
+    if (eventIdInput) {
+        eventIdInput.value = '';
+    }
 }
 
 // Function to clear all input fields in the new event type form
 export function clearEventTypeFormInputs() {
-    document.getElementById('NewEventTypeForm').reset();
+    const form = document.getElementById('NewEventTypeForm');
+    if (form)
+        form.reset();
 }

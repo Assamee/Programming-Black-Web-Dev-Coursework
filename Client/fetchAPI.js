@@ -64,6 +64,24 @@ export async function postEventTypes(eventType) { // eventTypes is a JS object r
 }
 
 // ========================================================
+// UPDATE EXISTING EVENT ON SERVER (PUT)
+// ========================================================
+
+export async function updateEvent(eventId, eventData) {
+    // Send a PUT request (to /events/:id) on the server to update the event with the specified ID
+    try{ 
+        const response = await fetch(`/events/${eventId}`, {
+            method: 'PUT', // Use the PUT method for updating
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(eventData) // Convert the updated event data to a JSON string
+        });
+        return response; // Return the Response from the server
+    } catch (error) {
+        throw error; // Re-throw the error for further handling
+    }  
+}
+
+// ========================================================
 // DELETE EVENT FROM SERVER
 // ========================================================
 

@@ -35,9 +35,9 @@ describe('Express App Endpoints', () => {
     // =====================================================
     test('GET /events should return an empty array initially', async () => {
         const response = await supertest(app)
-        .get('/events') // Fetch events from the server
-        .expect('Content-Type', /json/) // Expect JSON response
-        .expect(200); // Expect HTTP status 200 OK
+            .get('/events') // Fetch events from the server
+            .expect('Content-Type', /json/) // Expect JSON response
+            .expect(200); // Expect HTTP status 200 OK
 
          // Expect the response body to be an empty array
         expect(response.body).toEqual([]);

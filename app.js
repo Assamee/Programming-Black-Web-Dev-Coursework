@@ -130,8 +130,33 @@ app.delete('/events/:id', (req, res) => {
 });
 
 app.put("/events/:id",(req,res) => {
-    // Edit button may be implemented in the future
-})
+    const idToEdit = req.params.id; // Get the event ID from the URL parameter
+    const updatedEvent = req.body; // Get the updated event data from the request body
+
+    // Find the index of the event to edit
+    const index = eventsData.findIndex(event => event.id === idToEdit);
+
+    // index will be -1 if the event with the given ID is not found
+    if (index !== -1) {
+        // Update the event at the found index
+        // ... is the spread operator to copy all properties from updatedEvent
+        // Set the id to ensure we are editing the correct event
+        eventsData[index] = { ...updatedEvent, id: idToEdit };
+
+        // Write the updated events array to 'events.json' file for persistence
+        let data = JSON.stringify(eventsData, null, 2);
+        fs.writeFileSync(EVENTS_FILE_PATH, data);
+        console.log("Event edited. Updated events saved to events.json", data);
+
+        // Send the updated event back as JSON response
+        res.json(eventsData[index]);
+    
+    } else { // Event with the given ID not found
+        res.status(404).json({ message: 'Event not found' });
+    }
+
+
+});
 
 
 // Export the app so other files can use it (e.g. for testing)

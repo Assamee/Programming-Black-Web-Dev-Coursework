@@ -4,7 +4,7 @@
 // Import necessary functions from other modules
 import { getLocalNowString, getOneHourLaterString } from './DateHandling.js';
 import { DisplayEvents, updateNavbarHeight, getBootstrapColour, clearEventFormInputs, clearEventTypeFormInputs } from './UpdateWebpage.js';
-import { fetchEvents, fetchEventsByTitle, fetchEventTypes, postEvent, postEventTypes, deleteEvent } from './fetchAPI.js';
+import { fetchEvents, fetchEventsByTitle, fetchEventTypes, postEvent, postEventTypes, updateEvent, deleteEvent } from './fetchAPI.js';
 
 // Accessing the DOM after it is fully loaded
 document.addEventListener("DOMContentLoaded", () => { 
@@ -29,7 +29,7 @@ document.addEventListener("DOMContentLoaded", () => {
             ]);
             // Server-side Error handling
 
-            // "" is falsy, so .filter() removes any events with missing title or startDate
+            // "" is falsy, so .filter() removes any events with a missing title or startDate
             events = events.filter(event => event.title); // Filter out events without a title
             events = events.filter(event => event.startDate); // Filter out events without a startDate
 
@@ -38,6 +38,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
             // Call the DisplayEvents function from UpdateWebpage.js to update the UI
             DisplayEvents(events, types);
+        
         } catch (error) {
             // IF SERVER IS DOWN: Show Error Message
             container.innerHTML = `
@@ -77,6 +78,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 option.text = type.name; // Set the option text to the event type name
                 typeSelect.appendChild(option); // Add the option to the dropdown
             });
+        
         } catch (error) {
             // IF SERVER IS DOWN: Show Error Message
             container.innerHTML = `
@@ -98,7 +100,6 @@ document.addEventListener("DOMContentLoaded", () => {
     // Call the function immediately when the page loads
     loadEventTypes();
 
-
     // ========================================================
     // 2. Handle Form Submission to Add New Events
     // ========================================================
@@ -110,8 +111,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
             // STOP the default browser behaviour (which is to reload the page immediately)
             event.preventDefault();
-        
-         try {   
+         
             // ========================================================
             // Gather Data from the Form Submission
             // ========================================================
@@ -122,12 +122,21 @@ document.addEventListener("DOMContentLoaded", () => {
                 // Convert the FormData into a standard JavaScript object, then to a JSON string
                 const formObj = Object.fromEntries(formData.entries());
 
+                // Get the Event ID from the hidden input (if editing an existing event)
+                const eventID = document.getElementById('EventIdInput').value;
+
             // ========================================================
             // Send the Data to the Server using the FetchAPI.js module
             // ========================================================
 
-                // Use the imported postEvent function to send data to the server
-                const response = await postEvent(formObj);
+            try {
+                // Decide whether to POST a new event or PUT (update) an existing event
+                let response;
+                if (eventID) {
+                    response = await updateEvent(eventID, formObj); // Update existing event
+                } else {
+                    response = await postEvent(formObj); // Create new event
+                }
             
             // ========================================================
             // Handle the Server's Response
@@ -214,10 +223,22 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     // ========================================================
-    // 5. Handle Event Details (View & Delete)
+    // 5. Handle Event Details (View, Edit & Delete)
     // ========================================================
 
-    let currentEventId = null; // Store the ID of the event currently being viewed
+    // Variables to store current event details
+    let currentEventId = null;
+    let currentTitle = "";
+    let currentLocation = "";
+    let currentDescription = "";
+    let currentType = "";
+    let currentStartDate = "";
+    let currentEndDate = "";
+
+    // ============================================
+    // View Event Details in Modal
+    // ============================================
+
     const detailModal = document.getElementById('EventDetailModal');
 
     // When the modal opens, populate it with the event details
@@ -228,19 +249,56 @@ document.addEventListener("DOMContentLoaded", () => {
             
             // Extract info from the button's data-attributes
             currentEventId = button.getAttribute('data-id'); 
-            const title = button.getAttribute('data-title');
-            const location = button.getAttribute('data-location');
-            const description = button.getAttribute('data-description');
+            currentTitle = button.getAttribute('data-title');
+            currentLocation = button.getAttribute('data-location');
+            currentDescription = button.getAttribute('data-description');
+            currentType = button.getAttribute('data-eventtype');
+            currentStartDate = button.getAttribute('data-startdate');
+            currentEndDate = button.getAttribute('data-enddate');
+
+            // Format the time string for display
             const timeString = button.getAttribute('data-timestring');
         
             // Inject into the Modal HTML
-            document.getElementById('DetailTitle').innerText = title;
-            document.getElementById('DetailLocation').innerText = location;
-            document.getElementById('DetailDescription').innerText = description || "No description provided.";
+            document.getElementById('DetailTitle').innerText = currentTitle;
+            document.getElementById('DetailLocation').innerText = currentLocation || "Location TBC";
+            document.getElementById('DetailDescription').innerText = currentDescription || "No description provided.";
             document.getElementById('DetailTime').innerText = timeString;
         });
     }
 
+    // ============================================
+    // Edit Event Button
+    // ============================================
+
+    const editButton = document.getElementById('EditEventButton');
+        if (editButton) {
+            editButton.addEventListener('click', () => {
+                // Hide the detail modal
+                const detailModalInstance = bootstrap.Modal.getInstance(detailModal);
+                detailModalInstance.hide();
+
+                // Update the input form with the current event details
+                document.getElementById('TitleInput').value = currentTitle;
+                document.getElementById('LocationInput').value = currentLocation;
+                document.getElementById('DescriptionInput').value = currentDescription;
+                document.getElementById('TypeInput').value = currentType;
+                document.getElementById('StartDateInput').value = currentStartDate;
+                document.getElementById('EndDateInput').value = currentEndDate;
+
+                // Set the hidden event ID input to the current event's ID
+                document.getElementById('EventIdInput').value = currentEventId;
+
+                // Show the input modal
+                const inputModalElement = document.getElementById('InputEventDetails');
+                const inputModalInstance = new bootstrap.Modal(inputModalElement);
+                inputModalInstance.show();
+            });
+        }
+
+    // ============================================
+    // Delete Event Button
+    // ============================================
 
     // Handle Delete Button Click
     const deleteButton = document.getElementById('DeleteEventButton');
@@ -260,6 +318,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
                     // Refresh the event list
                     loadEvents();
+                
                 } else {
                     alert("Failed to delete event"); // Alert the user about the failure
                 }
