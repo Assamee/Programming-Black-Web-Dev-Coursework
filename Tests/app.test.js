@@ -160,6 +160,57 @@ describe('Express App Endpoints', () => {
             .expect(404); // Expect HTTP status 404 Not Found
     });
 
+    // =====================================================
+    // Test Validation: POST /events with Invalid Dates
+    // =====================================================
+    test('POST /events should reject if endDate is before startDate', async () => {
+        const response = await supertest(app)
+            .post('/events')
+            .send({
+                title: "Invalid Date Event",
+                startDate: "2025-01-02T10:00",
+                endDate: "2025-01-01T10:00", // <--- Ends BEFORE it starts
+                eventType: "Meeting"
+            })
+            .expect('Content-Type', /json/)
+            .expect(400); // Expect Bad Request
+
+        expect(response.body.message).toBe("End date cannot be before start date");
+    });
+
+    // =====================================================
+    // Test Validation: PUT /events/:id with Invalid Dates
+    // =====================================================
+    test('PUT /events/:id should reject update if endDate is before startDate', async () => {
+        // Create a valid event
+        const createResponse = await supertest(app)
+            .post('/events')
+            .send({
+                title: "Valid Event",
+                startDate: "2025-01-01T10:00",
+                endDate: "2025-01-01T11:00",
+                eventType: "Meeting"
+            })
+            .expect(200);
+        
+        // Get the ID of the newly created event
+        const eventId = createResponse.body.id;
+
+        // Try to update the newly created event with invalid dates
+        const updateResponse = await supertest(app)
+            .put(`/events/${eventId}`)
+            .send({
+                title: "Broken Update",
+                startDate: "2025-01-02T10:00",
+                endDate: "2025-01-01T10:00", // <--- Ends BEFORE it starts
+                eventType: "Meeting"
+            })
+            .expect('Content-Type', /json/)
+            .expect(400); // Expect Bad Request
+
+        expect(updateResponse.body.message).toBe("End date cannot be before start date");
+    });
+
 
     // =====================================================
     // Test the DELETE /events/:id

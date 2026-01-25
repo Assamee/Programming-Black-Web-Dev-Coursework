@@ -91,6 +91,12 @@ function CheckifExists(name) {
 app.post('/events', (req, res) => {
     const newEvent = req.body; // Get the new event data from the request body
 
+    // Validation Check: endDate is not before startDate
+    if (newEvent.endDate && new Date(newEvent.endDate) < new Date(newEvent.startDate)) {
+        res.status(400).json({ message: "End date cannot be before start date" });
+        return; // Stop execution
+    }
+
     randomNumber = Math.floor(Math.random() * 1000).toString(); // Generate a random number between 0 and 999
 
     newEvent.id = Date.now().toString() + randomNumber; // Assign a unique ID based on the current timestamp and the random number
@@ -161,6 +167,12 @@ app.delete('/events/:id', (req, res) => {
 app.put("/events/:id",(req,res) => {
     const idToEdit = req.params.id; // Get the event ID from the URL parameter
     const updatedEvent = req.body; // Get the updated event data from the request body
+
+    // Validation Check: endDate is not before startDate
+    if (updatedEvent.endDate && new Date(updatedEvent.endDate) < new Date(updatedEvent.startDate)) {
+        res.status(400).json({ message: "End date cannot be before start date" });
+        return; // Stop execution
+    }
 
     // Find the index of the event to edit
     const index = eventsData.findIndex(event => event.id === idToEdit);
