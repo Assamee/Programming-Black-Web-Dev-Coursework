@@ -4,6 +4,7 @@
   "description": "Calendar Web Application using Node.js and Express.js",
   "main": "server.js",
   "scripts": {
+    "pretest": "echo 'Starting tests...'",
     "test": "jest --coverage",
     "start": "node server.js"
   },

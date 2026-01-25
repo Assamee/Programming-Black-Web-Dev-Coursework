@@ -1,11 +1,11 @@
 [
   {
-    "title": "New Year's Day Celebration",
-    "description": "Celebration of the New Year across the world. ",
-    "location": "Every where 😁",
-    "eventType": "Great Events",
-    "startDate": "2027-01-01T00:00",
-    "endDate": "2027-01-01T23:59",
+    "title": "New Year's Day",
+    "description": "Celebration of the New Year ",
+    "location": "Worldwide",
+    "eventType": "Public Holiday",
+    "startDate": "2026-01-01T00:00",
+    "endDate": "2026-01-01T23:59",
     "id": "1"
   },
   {
@@ -19,11 +19,36 @@
   },
   {
     "title": "2025 event",
-    "description": "",
-    "location": "",
+    "description": "Hello World",
+    "location": "London",
     "eventType": "Work",
     "startDate": "2025-12-09T12:47",
     "endDate": "2025-12-09T13:47",
     "id": "1769345291523"
+  },
+  {
+    "title": "",
+    "description": "",
+    "location": "",
+    "startDate": "2026-01-25T18:08",
+    "endDate": "2026-01-25T19:08",
+    "id": "176936453253858"
+  },
+  {
+    "title": "Prog Black Lecture",
+    "description": "",
+    "location": "TLC",
+    "eventType": "Lecture",
+    "startDate": "2026-01-14T18:08",
+    "endDate": "2026-01-26T19:08",
+    "id": "1769364551208153"
+  },
+  {
+    "title": "Test",
+    "description": "Hello There",
+    "location": "Sheffield",
+    "startDate": "2026-01-25T18:22",
+    "endDate": "2026-01-25T19:22",
+    "id": "1769365373627498"
   }
 ]

@@ -5,6 +5,7 @@
 const supertest = require('supertest');
 const app = require('../app'); // Import the Express app 'app.js' in the parent directory
 const fs = require('fs'); // Import 'fs' module for file operations
+const { create } = require('domain');
 
 // Define the paths to the test JSON files
 const testEventsPath = './Tests/test_events.json';
@@ -212,13 +213,46 @@ describe('Express App Endpoints', () => {
     });
 
     // =====================================================
-    // Test the GET /events/:id
+    // Test the GET /events/id/:id
     // =====================================================
-    test('GET /events/:id should return event by ID', async () => {
+    test('GET /events/id/:id should return event by ID', async () => {
+        // Create an event to be fetched by ID
+        const createResponse = await supertest(app)
+            .post('/events')
+            .send({
+                // Sample event data to be added
+                title: "Event to Fetch by ID",
+                startDate: "2024-10-12T10:00",
+                description: "This event will be fetched by ID.",
+                eventType: "Work"
+            })
+            .expect(200); // Expect HTTP status 200 OK
+
+        // Get the event ID
+        const eventID = createResponse.body.id;
+        
+        // Fetch the event by ID using the correct URL endpoint
         const response = await supertest(app)
-            .get('/events/1') // Fetch event by ID from the server
+            .get(`/events/id/${eventID}`) // Fetch event by ID from the server
             .expect('Content-Type', /json/) // Expect JSON response
             .expect(200); // Expect HTTP status 200 OK
+
+        // Verify that the fetched event matches the created event
+        expect(response.body.id).toBe(eventID);
+        expect(response.body.title).toBe("Event to Fetch by ID");
+    });
+
+    // =====================================================
+    // Test GET /events/id/:id with Non-Existent ID
+    // =====================================================
+    test('GET /events/id/:id should return 404 for non-existent ID', async () => {
+        const reponse = await supertest(app)
+            .get('/events/id/9999999') // Use a made-up ID
+            .expect('Content-Type', /json/)
+            .expect(404); // This forces app.js to run Line 125
+        
+        expect(reponse.body.message).toBe("Event not found");
+        expect(reponse.statusCode).toBe(404);
     });
 
 });

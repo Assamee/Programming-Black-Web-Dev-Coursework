@@ -46,6 +46,7 @@ let eventTypesData = loadData(EVENT_TYPES_FILE_PATH) || [];
 // GET endpoint to retrieve all events from the server
 app.get('/events', (req, res) => {
     res.json(eventsData); // Send the events array as JSON response
+    // res.json() automatically sets the Content-Type to application/json and the status to 200 OK
 });
 
 // Get endpoint to retrieve all event Types from the server
@@ -79,8 +80,8 @@ app.post('/eventTypes', (req,res) => {
 // To make sure that the name is unique, we can use this function to generate unique IDs
 // If that name already exists, then reject it
 function CheckifExists(name) {
-    for (const event in eventTypesData) {
-        if (name === eventTypesData[event].name) {
+    for (const event of eventTypesData) {
+        if (name === event.name) {
             throw new Error("Event Type already exists");
         }   
     }
@@ -90,7 +91,9 @@ function CheckifExists(name) {
 app.post('/events', (req, res) => {
     const newEvent = req.body; // Get the new event data from the request body
 
-    newEvent.id = Date.now().toString(); // Assign a unique ID based on the current timestamp
+    randomNumber = Math.floor(Math.random() * 1000).toString(); // Generate a random number between 0 and 999
+
+    newEvent.id = Date.now().toString() + randomNumber; // Assign a unique ID based on the current timestamp and the random number
 
     eventsData.push(newEvent); // Add the new event to the events array
     console.log("New event added:", newEvent.title, "ID:", newEvent.id); // Log for debugging
@@ -104,13 +107,34 @@ app.post('/events', (req, res) => {
     // The res.json() line automatically sends a 200 OK status and ends the POST request
 });
 
-
-
 // Search bar GET endpoint to search events by title (works with partial matches)
 app.get('/events/:title', (req, res) => {
     const titleQuery = req.params.title.toLowerCase(); // Get the title from the URL parameter and convert to lowercase
     const filteredEvents = eventsData.filter(event => event.title && event.title.toLowerCase().includes(titleQuery)); // Filter events by title
     res.json(filteredEvents); // Send the filtered events as JSON response
+});
+
+// Get endpoint to retrieve a specific event by ID
+// events/id/:id is used to avoid conflict with /events/:title endpoint
+app.get('/events/id/:id', (req, res) => {
+    const eventId = req.params.id; // Get the event ID from the URL parameter
+
+    const event = eventsData.find(event => event.id === eventId); // Find the event by ID
+
+    if (event) {
+        // Find the type in eventTypesData that matches the event's eventType name
+        const relatedType = eventTypesData.find(type => type.name === event.eventType); // Find the related event type
+
+        // Create a response object that includes event details and related event type details
+        const response = {
+            ...event, // Spread operator to include all event properties
+            eventTypeDetails: relatedType || null // Include related event type details or null if not found
+        };
+        res.json(response); // Send the response object as JSON
+
+    } else {
+        res.status(404).json({ message: 'Event not found' }); // Send 404 if event not found
+    }
 });
 
 // DELETE endpoint to delete an event by ID
@@ -131,6 +155,7 @@ app.delete('/events/:id', (req, res) => {
     }
 });
 
+// PUT endpoint to update an existing event by ID
 app.put("/events/:id",(req,res) => {
     const idToEdit = req.params.id; // Get the event ID from the URL parameter
     const updatedEvent = req.body; // Get the updated event data from the request body

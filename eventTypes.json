@@ -18,5 +18,9 @@
   {
     "name": "Great Events",
     "colour": "secondary"
+  },
+  {
+    "name": "new event type",
+    "colour": "primary"
   }
 ]
