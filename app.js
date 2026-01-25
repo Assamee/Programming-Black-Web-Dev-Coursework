@@ -104,6 +104,8 @@ app.post('/events', (req, res) => {
     // The res.json() line automatically sends a 200 OK status and ends the POST request
 });
 
+
+
 // Search bar GET endpoint to search events by title (works with partial matches)
 app.get('/events/:title', (req, res) => {
     const titleQuery = req.params.title.toLowerCase(); // Get the title from the URL parameter and convert to lowercase

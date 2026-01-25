@@ -107,7 +107,60 @@ describe('Express App Endpoints', () => {
         expect(response.statusCode).toBe(400);
     });
 
+    // =====================================================
+    // Test the PUT /events/:id (Edit Event)
+    // =====================================================
+    test('PUT /events/:id should update event by ID', async () => {
+        // Create an event to be updated
+        const createResponse = await supertest(app)
+            .post('/events')
+            .send({
+                // Sample event data to be added
+                title: "Original Title",
+                startDate: "2024-10-10T10:00",
+                description: "Original event description.",
+                type: "Work" 
+            })
+            .expect(200); // Expect HTTP status 200 OK
+        
+        // Get the ID of the newly created event
+        const eventId = createResponse.body.id;
     
+        // Send a PUT request to update the event with the specified ID
+        const updateResponse = await supertest(app)
+            .put(`/events/${eventId}`)
+            .send({
+                // Updated event data
+                title: "Updated Title", // Changed title
+                startDate: "2024-10-10T12:00", // Changed start date/time
+                description: "Original event description.", // Keep description the same
+                type: "Personal"  // Changed event type
+            })
+            .expect('Content-Type', /json/) // Expect JSON response
+            .expect(200); // Expect HTTP status 200 OK
+        
+        // Check that the response body contains the updated event data
+        expect(updateResponse.body.title).toBe("Updated Title"); // Updated title
+        expect(updateResponse.body.startDate).toBe("2024-10-10T12:00"); // Updated start date/time
+        expect(updateResponse.body.description).toBe("Original event description."); // Unchanged description
+        expect(updateResponse.body.type).toBe("Personal"); // Updated event type
+    });
+
+    // =====================================================
+    // Test PUT /events/:id with Non-Existent ID
+    // =====================================================
+    test('PUT /events/:id should return 404 for non-existent ID ', async () => {
+        await supertest(app)
+            .put('/events/99999') // Use a non-existent event ID
+            .send({
+                // Sample updated event data
+                title: "Non-existent Event",
+                startDate: "2024-10-10T10:00"
+            })
+            .expect(404); // Expect HTTP status 404 Not Found
+    });
+
+
     // =====================================================
     // Test the DELETE /events/:id
     // =====================================================
@@ -135,8 +188,6 @@ describe('Express App Endpoints', () => {
             .delete(`/events/${eventId}`)
             .expect(404); // Expect HTTP status 404 Not Found since it's already deleted
     });
-
-
 
 
     // =====================================================
@@ -169,6 +220,5 @@ describe('Express App Endpoints', () => {
             .expect('Content-Type', /json/) // Expect JSON response
             .expect(200); // Expect HTTP status 200 OK
     });
-
 
 });

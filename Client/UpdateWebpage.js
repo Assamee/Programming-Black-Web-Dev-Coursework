@@ -111,7 +111,6 @@ export function DisplayEvents(events, eventTypes) {
                 <button type="button" 
                 class="list-group-item list-group-item-action list-group-item-dark border-bottom py-3" 
                 data-bs-toggle="modal" data-bs-target="#EventDetailModal"
-
                 
                 data-id="${event.id}"
                 data-title="${title}"

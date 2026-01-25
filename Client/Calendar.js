@@ -248,6 +248,7 @@ document.addEventListener("DOMContentLoaded", () => {
             const button = event.relatedTarget; 
             
             // Extract info from the button's data-attributes
+            // Note that these were set in the DisplayEvents() function in UpdateWebpage.js
             currentEventId = button.getAttribute('data-id'); 
             currentTitle = button.getAttribute('data-title');
             currentLocation = button.getAttribute('data-location');
