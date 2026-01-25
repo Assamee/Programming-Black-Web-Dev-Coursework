@@ -128,7 +128,7 @@ app.get('/events/id/:id', (req, res) => {
         // Create a response object that includes event details and related event type details
         const response = {
             ...event, // Spread operator to include all event properties
-            eventTypeDetails: relatedType || null // Include related event type details or null if not found
+            relatedType: relatedType || null // Include related event type details or null if not found
         };
         res.json(response); // Send the response object as JSON
 

@@ -5,7 +5,6 @@
 const supertest = require('supertest');
 const app = require('../app'); // Import the Express app 'app.js' in the parent directory
 const fs = require('fs'); // Import 'fs' module for file operations
-const { create } = require('domain');
 
 // Define the paths to the test JSON files
 const testEventsPath = './Tests/test_events.json';
@@ -55,7 +54,7 @@ describe('Express App Endpoints', () => {
                 title: "Test Event",
                 startDate: "2024-10-10T10:00",
                 endDate: "2024-10-10T11:00",
-                type: "Meeting",
+                eventType: "Meeting",
                 description: "This is a test event."
             })
             .expect(200); // Expect HTTP status 200 OK
@@ -120,7 +119,7 @@ describe('Express App Endpoints', () => {
                 title: "Original Title",
                 startDate: "2024-10-10T10:00",
                 description: "Original event description.",
-                type: "Work" 
+                eventType: "Work" 
             })
             .expect(200); // Expect HTTP status 200 OK
         
@@ -135,7 +134,7 @@ describe('Express App Endpoints', () => {
                 title: "Updated Title", // Changed title
                 startDate: "2024-10-10T12:00", // Changed start date/time
                 description: "Original event description.", // Keep description the same
-                type: "Personal"  // Changed event type
+                eventType: "Personal"  // Changed event type
             })
             .expect('Content-Type', /json/) // Expect JSON response
             .expect(200); // Expect HTTP status 200 OK
@@ -144,7 +143,7 @@ describe('Express App Endpoints', () => {
         expect(updateResponse.body.title).toBe("Updated Title"); // Updated title
         expect(updateResponse.body.startDate).toBe("2024-10-10T12:00"); // Updated start date/time
         expect(updateResponse.body.description).toBe("Original event description."); // Unchanged description
-        expect(updateResponse.body.type).toBe("Personal"); // Updated event type
+        expect(updateResponse.body.eventType).toBe("Personal"); // Updated event type
     });
 
     // =====================================================
@@ -195,10 +194,10 @@ describe('Express App Endpoints', () => {
     // Test the GET /eventTypes
     // =====================================================
     test('GET /eventTypes should return all event types', async () => {
-        const response = await supertest(app)
-        .get('/eventTypes') // Fetch event types from the server
-        .expect('Content-Type', /json/) // Expect JSON response
-        .expect(200); // Expect HTTP status 200 OK
+        await supertest(app)
+            .get('/eventTypes') // Fetch event types from the server
+            .expect('Content-Type', /json/) // Expect JSON response
+            .expect(200); // Expect HTTP status 200 OK
     });
 
 
@@ -206,7 +205,7 @@ describe('Express App Endpoints', () => {
     // Test the GET /events/:title
     // =====================================================
     test('GET /events/:title should return event by title', async () => {
-        const response = await supertest(app)
+        await supertest(app)
             .get('/events/Title') // Fetch event by title from the server
             .expect('Content-Type', /json/) // Expect JSON response
             .expect(200); // Expect HTTP status 200 OK
@@ -216,11 +215,21 @@ describe('Express App Endpoints', () => {
     // Test the GET /events/id/:id
     // =====================================================
     test('GET /events/id/:id should return event by ID', async () => {
+        // Create the event type first to satisfy foreign key constraint
+        await supertest(app)
+            .post('/eventTypes')
+            .send({
+                name: "Work",
+                colour: "danger"
+            })
+            .expect(200);
+
+
         // Create an event to be fetched by ID
         const createResponse = await supertest(app)
             .post('/events')
             .send({
-                // Sample event data to be added
+                // Sample event linked to event type data to be added
                 title: "Event to Fetch by ID",
                 startDate: "2024-10-12T10:00",
                 description: "This event will be fetched by ID.",
@@ -240,19 +249,26 @@ describe('Express App Endpoints', () => {
         // Verify that the fetched event matches the created event
         expect(response.body.id).toBe(eventID);
         expect(response.body.title).toBe("Event to Fetch by ID");
+
+        // Verify that the relationship join is working
+        expect(response.body.eventType).toBe("Work");
+
+        // Check the joined event type details ('relatedType' as defined in app.js)
+        expect(response.body.relatedType).toBeDefined();
+        expect(response.body.relatedType.name).toBe("Work");
+        expect(response.body.relatedType.colour).toBe("danger");
     });
 
     // =====================================================
     // Test GET /events/id/:id with Non-Existent ID
     // =====================================================
     test('GET /events/id/:id should return 404 for non-existent ID', async () => {
-        const reponse = await supertest(app)
+        const response = await supertest(app)
             .get('/events/id/9999999') // Use a made-up ID
             .expect('Content-Type', /json/)
             .expect(404); // This forces app.js to run Line 125
         
-        expect(reponse.body.message).toBe("Event not found");
-        expect(reponse.statusCode).toBe(404);
+        expect(response.body.message).toBe("Event not found");
     });
 
 });

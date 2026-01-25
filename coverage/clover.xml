@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<coverage generated="1769365286428" clover="3.2.0">
-  <project timestamp="1769365286428" name="All files">
-    <metrics statements="75" coveredstatements="75" conditionals="24" coveredconditionals="18" methods="15" coveredmethods="15" elements="114" coveredelements="108" complexity="0" loc="75" ncloc="75" packages="1" files="1" classes="1"/>
+<coverage generated="1769377690170" clover="3.2.0">
+  <project timestamp="1769377690171" name="All files">
+    <metrics statements="75" coveredstatements="75" conditionals="24" coveredconditionals="17" methods="15" coveredmethods="15" elements="114" coveredelements="107" complexity="0" loc="75" ncloc="75" packages="1" files="1" classes="1"/>
     <file name="app.js" path="C:\Users\assam\OneDrive - Durham University\Computer Science\Prog (Black) Web Dev\app.js">
-      <metrics statements="75" coveredstatements="75" conditionals="24" coveredconditionals="18" methods="15" coveredmethods="15"/>
+      <metrics statements="75" coveredstatements="75" conditionals="24" coveredconditionals="17" methods="15" coveredmethods="15"/>
       <line num="5" count="1" type="stmt"/>
       <line num="6" count="1" type="stmt"/>
       <line num="9" count="1" type="stmt"/>
@@ -21,19 +21,19 @@
       <line num="53" count="1" type="stmt"/>
       <line num="54" count="1" type="stmt"/>
       <line num="58" count="1" type="stmt"/>
-      <line num="59" count="3" type="stmt"/>
-      <line num="60" count="3" type="stmt"/>
-      <line num="63" count="3" type="stmt"/>
-      <line num="64" count="3" type="stmt"/>
+      <line num="59" count="4" type="stmt"/>
+      <line num="60" count="4" type="stmt"/>
+      <line num="63" count="4" type="stmt"/>
+      <line num="64" count="4" type="stmt"/>
       <line num="66" count="1" type="stmt"/>
       <line num="67" count="1" type="stmt"/>
-      <line num="70" count="2" type="stmt"/>
-      <line num="73" count="2" type="stmt"/>
-      <line num="74" count="2" type="stmt"/>
-      <line num="75" count="2" type="stmt"/>
-      <line num="77" count="2" type="stmt"/>
-      <line num="83" count="3" type="stmt"/>
-      <line num="84" count="3" type="cond" truecount="2" falsecount="0"/>
+      <line num="70" count="3" type="stmt"/>
+      <line num="73" count="3" type="stmt"/>
+      <line num="74" count="3" type="stmt"/>
+      <line num="75" count="3" type="stmt"/>
+      <line num="77" count="3" type="stmt"/>
+      <line num="83" count="4" type="stmt"/>
+      <line num="84" count="5" type="cond" truecount="2" falsecount="0"/>
       <line num="85" count="1" type="stmt"/>
       <line num="91" count="1" type="stmt"/>
       <line num="92" count="4" type="stmt"/>
@@ -53,7 +53,7 @@
       <line num="120" count="2" type="stmt"/>
       <line num="122" count="6" type="stmt"/>
       <line num="124" count="2" type="cond" truecount="2" falsecount="0"/>
-      <line num="126" count="2" type="stmt"/>
+      <line num="126" count="3" type="stmt"/>
       <line num="129" count="1" type="stmt"/>
       <line num="133" count="1" type="stmt"/>
       <line num="136" count="1" type="stmt"/>

@@ -23,6 +23,18 @@ export function formatShortDate(rawDateString) {
     });
 }
 
+// --- Extracts "Jan 14 '24" ---
+export function formatShortDateWithYear(rawDateString) {
+    const date = new Date(rawDateString); // Convert String to Date Object
+    const dayMonth = date.toLocaleDateString('en-GB', { 
+        month: 'short', // "Jan"
+        day: 'numeric',  // "14"
+    });
+
+    const year = date.getFullYear().toString().slice(-2); // Get last two digits of year
+    return `${dayMonth} '${year}`; // Combine to form "Jan 14 '24"
+}
+
 // --- Extracts "MON, 1 JAN" for the Date Header ---
 export function formatDateHeader(rawDateString) {
     const date = new Date(rawDateString); // Turn the raw date string into a Date object

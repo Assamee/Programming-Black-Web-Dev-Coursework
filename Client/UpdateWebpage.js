@@ -2,7 +2,7 @@
 // === This module contains functions to update the webpage UI with event data and handle layout adjustments ===
 
 // --- Import ---
-import { formatTime, formatShortDate, formatDateHeader, formatDateHeaderYear } from './DateHandling.js';
+import { formatTime, formatShortDate, formatShortDateWithYear, formatDateHeader, formatDateHeaderYear } from './DateHandling.js';
 
 export function DisplayEvents(events, eventTypes) {
 
@@ -97,10 +97,16 @@ export function DisplayEvents(events, eventTypes) {
         // Check if the event starts and ends on the same day
         const isSameDay = (start.toDateString() === end.toDateString());
 
+        // Check if the event starts and ends in different years
+        const isSameYear = (start.getFullYear() === end.getFullYear());
+
+        // Format the end date display based on whether it's the same year or not
+        const dateString = isSameYear ? formatShortDate(end) :  formatShortDateWithYear(end);
+
         // Format the end date display based on whether it's the same day or not
         const endDateDisplay = isSameDay
             ? endTime // If same day, only show time (e.g., "10:00")
-            : `${formatShortDate(end)}<br>${endTime}`; // If different day, show short date (e.g., "Jan 14")
+            : `${dateString}<br>${endTime}`; // If different day, show date and time (e.g., "14 Jan<br>12:00")
 
         // =======================================================
         // Create Event Item HTML
@@ -113,12 +119,12 @@ export function DisplayEvents(events, eventTypes) {
                 data-bs-toggle="modal" data-bs-target="#EventDetailModal"
                 
                 data-id="${event.id}"
-                data-title="${title}"
-                data-location="${location}"
-                data-description="${event.description || ''}"
-                data-eventtype="${type}"
-                data-startdate="${event.startDate}"
-                data-enddate="${event.endDate || ''}"
+                data-title="${sanitiseHTML(title)}"
+                data-location="${sanitiseHTML(location)}"
+                data-description="${sanitiseHTML(event.description || '')}"
+                data-eventtype="${sanitiseHTML(type)}"
+                data-startdate="${sanitiseHTML(event.startDate)}"
+                data-enddate="${sanitiseHTML(event.endDate || '')}"
                 data-timestring="${startTime} - ${endTime}"
                 >
                     <div class="row align-items-center w-100 g-0 flex-nowrap">
@@ -139,11 +145,11 @@ export function DisplayEvents(events, eventTypes) {
                             <div class="d-flex justify-content-between align-items-center">
 
                                 <div style="min-width: 0;">
-                                    <h6 class="mb-0 fw-bold text-truncate">${title}</h6>
-                                    <small class="text-muted text-truncate d-block">📍 ${location}</small>
+                                    <h6 class="mb-0 fw-bold text-truncate">${sanitiseHTML(title)}</h6>
+                                    <small class="text-muted text-truncate d-block">📍 ${sanitiseHTML(location)}</small>
                                 </div>
 
-                                <span class="badge rounded-pill bg-${colour} flex-shrink-0">${type}</span>
+                                <span class="badge rounded-pill bg-${colour} flex-shrink-0">${sanitiseHTML(type)}</span>
                             </div>
                         </div>
 
@@ -185,6 +191,22 @@ export function getBootstrapColour(colourName) {
         case "Grey": return "secondary"; // Bootstrap 'secondary' class is grey
         default: return "info"; // Default to 'info' if no match found (cyan)
     }
+}
+
+// Function to sanitise HTML input strings to prevent Injection/XSS attacks
+function sanitiseHTML(str) {
+    // If the string is empty or null, return an empty string
+    if (!str) return '';
+
+    // Replace special characters with their HTML entity equivalents
+    // Regular expressions are used to find all instances of each character
+    return str
+        .toString() // Ensure the input is treated as a string
+        .replace(/&/g, "&amp;") // Replace ampersand
+        .replace(/</g, "&lt;") // Replace less-than sign
+        .replace(/>/g, "&gt;") // Replace greater-than sign
+        .replace(/"/g, "&quot;") // Replace double quotes
+        .replace(/'/g, "&apos;"); // Replace single quotes
 }
 
 // Function to clear all input fields in the new event form

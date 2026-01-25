@@ -22,5 +22,9 @@
   {
     "name": "new event type",
     "colour": "primary"
+  },
+  {
+    "name": "<a img=x onerror=alert(\"You have been hacked\")>",
+    "colour": "success"
   }
 ]

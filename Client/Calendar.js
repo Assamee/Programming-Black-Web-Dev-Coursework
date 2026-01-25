@@ -122,6 +122,12 @@ document.addEventListener("DOMContentLoaded", () => {
                 // Convert the FormData into a standard JavaScript object, then to a JSON string
                 const formObj = Object.fromEntries(formData.entries());
 
+                // Validation: Check if End Date is before Start Date
+                if (formObj.endDate && (new Date(formObj.endDate) < new Date(formObj.startDate))) { // If endDate is provided and is before startDate
+                    alert("End Date cannot be before Start Date.");
+                    return; // Exit the function if validation fails
+                }
+
                 // Get the Event ID from the hidden input (if editing an existing event)
                 const eventID = document.getElementById('EventIdInput').value;
 

@@ -18,12 +18,12 @@
     "id": "2"
   },
   {
-    "title": "2025 event",
+    "title": "Multi-year event",
     "description": "Hello World",
     "location": "London",
     "eventType": "Work",
-    "startDate": "2025-12-09T12:47",
-    "endDate": "2025-12-09T13:47",
+    "startDate": "2025-12-03T12:47",
+    "endDate": "2027-06-03T13:47",
     "id": "1769345291523"
   },
   {
@@ -44,11 +44,20 @@
     "id": "1769364551208153"
   },
   {
-    "title": "Test",
-    "description": "Hello There",
-    "location": "Sheffield",
-    "startDate": "2026-01-25T18:22",
-    "endDate": "2026-01-25T19:22",
-    "id": "1769365373627498"
+    "title": "<a img=x onerror=alert(\"You have been hacked!\")",
+    "description": "",
+    "location": "Location TBC",
+    "eventType": "<a img=x onerror=alert(\"You have been hacked\")>",
+    "startDate": "2026-01-25T19:28",
+    "endDate": "2026-01-25T20:28",
+    "id": "1769369284258904"
+  },
+  {
+    "title": "hello",
+    "description": "",
+    "location": "",
+    "startDate": "2026-01-25T19:35",
+    "endDate": "2026-01-25T20:35",
+    "id": "1769369706231620"
   }
 ]
