@@ -43,6 +43,11 @@ let eventTypesData = loadData(EVENT_TYPES_FILE_PATH) || [];
 // Define the Express Endpoints (Routes)
 // =====================================================
 
+// Added for Vercel deployment to serve the index.html file when the root URL is accessed
+app.get('/', (req, res) => {
+    res.sendFile(__dirname + '/Client/index.html');
+});
+
 // GET endpoint to retrieve all events from the server
 app.get('/events', (req, res) => {
     res.json(eventsData); // Send the events array as JSON response
