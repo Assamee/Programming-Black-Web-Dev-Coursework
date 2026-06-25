@@ -1,6 +1,6 @@
 [
   {
-    "name": "Public Holiday",
+    "name": "Work",
     "colour": "success"
   },
   {
@@ -8,23 +8,19 @@
     "colour": "primary"
   },
   {
-    "name": "Work",
-    "colour": "warning"
+    "name": "Public Holiday",
+    "colour": "info"
   },
   {
-    "name": "Event Type",
-    "colour": "primary"
-  },
-  {
-    "name": "Great Events",
+    "name": "Social",
     "colour": "secondary"
   },
   {
-    "name": "new event type",
-    "colour": "primary"
+    "name": "Fitness",
+    "colour": "success"
   },
   {
-    "name": "<a img=x onerror=alert(\"You have been hacked\")>",
-    "colour": "success"
+    "name": "huhu",
+    "colour": "primary"
   }
 ]
